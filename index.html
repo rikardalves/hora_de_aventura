@@ -7,7 +7,12 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <h1>Ficha de Personagem - Hora de Aventura RPG</h1>
+
+<div class="nav-link-container">
+  <a href="./acoes/index.html" class="nav-link">Ver Resumo de Ações &rarr;</a>
+</div>
 
 <div class="section">
   <label>Nome</label>
@@ -68,7 +73,15 @@
 
 <div class="section">
   <h3>Estados</h3>
-  <div class="flex" id="estados"></div>
+  <div class="estado-controls">
+    <label for="estado-master-select">Adicionar Estado:</label>
+    <select id="estado-master-select">
+      <option value="">Selecione...</option>
+      </select>
+    <button type="button" id="add-estado-btn">Adicionar</button>
+  </div>
+  <div class="flex" id="estados">
+    </div>
   <div id="descricaoEstado"></div>
 </div>
 
@@ -89,6 +102,7 @@
   <input type="file" id="fileInput" accept=".txt" style="display:none" onchange="lerArquivo(event)">
 </div>
 
+<!-- Scripts (data.js DEVE vir primeiro) -->
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>

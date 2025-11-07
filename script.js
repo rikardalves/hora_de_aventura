@@ -1,7 +1,7 @@
 // === ADICIONADO DE VOLTA ===
 // Estas duas linhas estavam faltando e impediam o script de rodar.
 const atributosLista = ['Jeitinho', 'Confusão', 'Músculos', 'Cachola', 'Contatos', 'Esperteza', 'Falastrice', 'Maneirice', 'Teimosia'];
-const estadosLista = ["QUEIMANDO", "CANSADO", "CONCENTRADO", "ASSUSTADO", "CEGADO", "CRÉULO", "ATURDIDO", "MANCANDO", "CONFUSO", "CONGELADO", "DESLUMBRADO", "ENSURDECIDO", "PARA BAIXO", "EMPANTURRADO", "FURIOSO", "DECEPCIONADO", "ENAMORADO", "ESFOMEADO", "ENFEITIÇADO", "IMOBILIZADO", "MORTO", "INCONSCIENTE", "INSPIRADO", "ESCONDIDO", "IMPRESSIONADO", "MIOLO MOLE", "PARALISADO", "DOENTE", "DIMINUTO", "PEQUENO", "MÉDIO", "GRANDE", "GIGANTE", "SURPRESO", "ESQUISITÃO"];
+const estadosLista = ["QUEIMANDO", "CANSADO", "CONCENTRADO", "ASSUSTADO", "CEGADO", "CRÉDULO", "ATURDIDO", "MANCANDO", "CONFUSO", "CONGELADO", "DESLUMBRADO", "ENSURDECIDO", "PARA BAIXO", "EMPANTURRADO", "FURIOSO", "DECEPCIONADO", "ENAMORADO", "ESFOMEADO", "ENFEITIÇADO", "IMOBILIZADO", "MORTO", "INCONSCIENTE", "INSPIRADO", "ESCONDIDO", "IMPRESSIONADO", "MIOLO MOLE", "PARALISADO", "DOENTE", "DIMINUTO", "PEQUENO", "MÉDIO", "GRANDE", "GIGANTE", "SURPRESO", "ESQUISITÃO"];
 // =============================
 
 // --- FUNÇÕES DE INICIALIZAÇÃO (EXECUTADAS QUANDO A PÁGINA CARREGA) ---
@@ -37,15 +37,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
         vidaContainer.appendChild(chk);
     }
 
+    // === INÍCIO: NOVO CÓDIGO DE ESTADOS ===
+    
     // Loop inicial para criar campos de Estado
     const estadosContainer = document.getElementById('estados');
     for (let i = 0; i < 3; i++) {
-        const div = document.createElement('div'); div.className = 'state-box';
-        const sel = document.createElement('select'); sel.innerHTML = '<option value="">Selecione...</option>' + estadosLista.map(e => `<option>${e}</option>`).join('');
-        sel.onchange = e => mostrarDescricao();
-        div.appendChild(sel);
+        const div = document.createElement('div'); 
+        div.className = 'state-box';
+        div.innerHTML = `
+            <span class="estado-nome"></span>
+            <button type="button" class="remove-estado-btn hidden" onclick="removerEstado(this)">-</button>
+        `;
         estadosContainer.appendChild(div);
     }
+    
+    // Popula o dropdown mestre de estados
+    const estadoMasterSelect = document.getElementById('estado-master-select');
+    estadoMasterSelect.innerHTML += estadosLista.map(e => `<option value="${e}">${e}</option>`).join('');
+
+    // Adiciona listener ao botão
+    document.getElementById('add-estado-btn').addEventListener('click', adicionarEstado);
+    
+    // === FIM: NOVO CÓDIGO DE ESTADOS ===
 });
 
 // --- FUNÇÕES DAS PROEZAS ---
@@ -217,21 +230,159 @@ function popularPresetsEquipamentos() {
 // --- FIM DO CÓDIGO DE EQUIPAMENTOS ---
 
 
+// === INÍCIO: NOVAS FUNÇÕES DE ESTADO ===
+
+/** Define o estado em um slot específico */
+function setEstadoSlot(slot, estadoNome) {
+    const nomeSpan = slot.querySelector('.estado-nome');
+    const removeBtn = slot.querySelector('.remove-estado-btn');
+    
+    if (estadoNome) {
+        nomeSpan.textContent = estadoNome;
+        removeBtn.classList.remove('hidden');
+    } else {
+        nomeSpan.textContent = '';
+        removeBtn.classList.add('hidden');
+    }
+}
+
+/** Função principal para adicionar estados */
+function adicionarEstado() {
+    const select = document.getElementById('estado-master-select');
+    const estadoNovo = select.value;
+    if (!estadoNovo) return;
+
+    // Verifica se as novas regras de estado foram carregadas
+    if (typeof estadosData === 'undefined') {
+        console.error("Erro: Arquivo data.js não foi carregado a tempo com 'estadosData'.");
+        alert("Erro: Não foi possível carregar as regras dos estados.");
+        return;
+    }
+
+    const slots = document.querySelectorAll('#estados .state-box');
+    const estadosAtuais = [...slots].map(s => s.querySelector('.estado-nome').textContent).filter(Boolean);
+    const regrasEstadoNovo = estadosData[estadoNovo];
+
+    // Se já possui o estado, não faz nada
+    if (estadosAtuais.includes(estadoNovo)) {
+        select.value = ""; // Reseta o dropdown
+        return;
+    }
+
+    // --- LÓGICA DE IGNORE/CANCELA ---
+
+    // 1. Regra "Ignora": Verifica se um estado ATUAL ignora o NOVO
+    for (const estadoExistente of estadosAtuais) {
+        const regrasExistente = estadosData[estadoExistente];
+        
+        // Regras especiais "TODOS"
+        if (regrasExistente.ignora.includes("TODOS")) {
+            alert(`O estado ${estadoExistente} ignora o estado ${estadoNovo}.`);
+            select.value = "";
+            return;
+        }
+        if (regrasExistente.ignora.includes("TODOS (EXCETO MORTO)") && estadoNovo !== "MORTO") {
+            alert(`O estado ${estadoExistente} ignora o estado ${estadoNovo}.`);
+            select.value = "";
+            return;
+        }
+
+        // Regra normal
+        if (regrasExistente.ignora.includes(estadoNovo)) {
+            alert(`O estado ${estadoExistente} ignora o estado ${estadoNovo}.`);
+            select.value = "";
+            return;
+        }
+    }
+
+    // 2. Regra "Cancela": Verifica se o NOVO estado cancela um ATUAL
+    let slotSubstituido = null;
+    if (regrasEstadoNovo.cancela.length > 0) {
+        // Regra especial "TODOS"
+        if (regrasEstadoNovo.cancela.includes("TODOS")) {
+            // Remove todos os estados e adiciona o novo
+            slots.forEach(slot => setEstadoSlot(slot, null));
+            setEstadoSlot(slots[0], estadoNovo);
+            mostrarDescricao();
+            select.value = "";
+            return;
+        }
+
+        // Regra normal
+        for (const estadoParaCancelar of regrasEstadoNovo.cancela) {
+            for (const slot of slots) {
+                if (slot.querySelector('.estado-nome').textContent === estadoParaCancelar) {
+                    // Encontrou um estado para cancelar!
+                    // Substitui o estado antigo pelo novo neste slot
+                    setEstadoSlot(slot, estadoNovo);
+                    slotSubstituido = slot;
+                    break; // Para o loop interno
+                }
+            }
+            if (slotSubstituido) break; // Para o loop externo
+        }
+    }
+
+    // Se o estado foi adicionado via substituição, atualiza e sai
+    if (slotSubstituido) {
+        mostrarDescricao();
+        select.value = "";
+        return;
+    }
+
+    // 3. Adiciona em slot vazio
+    let slotVazio = null;
+    for (const slot of slots) {
+        if (!slot.querySelector('.estado-nome').textContent) {
+            slotVazio = slot;
+            break;
+        }
+    }
+
+    if (slotVazio) {
+        setEstadoSlot(slotVazio, estadoNovo);
+        mostrarDescricao();
+        select.value = "";
+        return;
+    }
+
+    // 4. Slots cheios
+    alert(`É preciso remover um estado para adicionar ${estadoNovo}.`);
+    select.value = "";
+}
+
+/** Remove um estado do slot */
+function removerEstado(buttonElement) {
+    const slot = buttonElement.closest('.state-box');
+    setEstadoSlot(slot, null); // Limpa o slot
+    mostrarDescricao(); // Atualiza a lista de descrições
+}
+
+/** Mostra a descrição dos estados ativos */
 function mostrarDescricao() {
     const box = document.getElementById('descricaoEstado');
     box.innerHTML = '';
-    // Verifica se descricoes está carregado
-    if (typeof descricoes === 'undefined') {
-        console.error("Erro: Arquivo data.js não foi carregado a tempo.");
+    
+    // Verifica se estadosData está carregado
+    if (typeof estadosData === 'undefined') {
+        console.error("Erro: Arquivo data.js não foi carregado a tempo com 'estadosData'.");
         return;
     }
-    document.querySelectorAll('#estados select').forEach(s => {
-        if (s.value) {
-            const p = document.createElement('div'); p.className = 'descricao-estado'; p.innerText = `${s.value}: ${descricoes[s.value]}`;
+
+    // Lê os nomes dos estados dos spans
+    document.querySelectorAll('#estados .state-box').forEach(slot => {
+        const estadoNome = slot.querySelector('.estado-nome').textContent;
+        if (estadoNome && estadosData[estadoNome]) {
+            const p = document.createElement('div');
+            p.className = 'descricao-estado';
+            // Usa .desc para pegar só a descrição
+            p.innerText = `${estadoNome}: ${estadosData[estadoNome].desc}`;
             box.appendChild(p);
         }
     });
 }
+// === FIM: NOVAS FUNÇÕES DE ESTADO ===
+
 
 function alterarValor(id, delta) {
     const el = document.getElementById(id); let v = parseInt(el.textContent) + delta; if (v < 0) v = 0; el.textContent = v;
@@ -240,9 +391,20 @@ function alterarValor(id, delta) {
 function verificarVida() {
     const hearts = [...document.querySelectorAll('#vida input')];
     if (hearts.every(h => h.checked)) {
-        const slots = [...document.querySelectorAll('#estados select')];
-        const vazio = slots.find(s => !s.value);
-        if (vazio) { vazio.value = 'INCONSCIENTE'; mostrarDescricao(); }
+        // Tenta adicionar 'INCONSCIENTE' usando a nova lógica
+        // Seleciona o dropdown mestre e o botão
+        const select = document.getElementById('estado-master-select');
+        const addButton = document.getElementById('add-estado-btn');
+        
+        // Salva o valor atual do select para restaurar
+        const valorAntigo = select.value;
+        
+        // Tenta adicionar
+        select.value = 'INCONSCIENTE';
+        adicionarEstado();
+        
+        // Restaura o valor do select
+        select.value = valorAntigo;
     }
 }
 
@@ -260,7 +422,8 @@ function salvarFicha() {
             valor: d.querySelector('.valor').value,
             proezas: [...d.querySelectorAll('.proeza-slot select.proeza')].map(p => p.value)
         })),
-        estados: [...document.querySelectorAll('#estados select')].map(s => s.value),
+        // ATUALIZADO: Salva os estados lendo dos spans
+        estados: [...document.querySelectorAll('#estados .state-box .estado-nome')].map(span => span.textContent),
         equip: [...document.querySelectorAll('#equipamentos .equip-item')].map(row => ({
             arma: row.querySelector('.equip-arma').value,
             acao: row.querySelector('.equip-acao').value,
@@ -323,12 +486,13 @@ function lerArquivo(e) {
                 }
             });
 
-            // Preenche os estados
-            [...document.querySelectorAll('#estados select')].forEach((s, i) => {
+            // ATUALIZADO: Preenche os slots de estado
+            const slots = document.querySelectorAll('#estados .state-box');
+            slots.forEach((slot, i) => {
                 if (data.estados && data.estados[i]) {
-                    s.value = data.estados[i];
+                    setEstadoSlot(slot, data.estados[i]);
                 } else {
-                    s.value = '';
+                    setEstadoSlot(slot, null);
                 }
             });
             mostrarDescricao();

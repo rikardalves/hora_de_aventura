@@ -243,6 +243,7 @@ button:hover {
     font-size: 0.9em;
     width: 100%;
     /* Garante que ocupe o espaço */
+    white-space: pre-wrap; /* Mantém quebras de linha */
 }
 
 /* --- ESTILOS PARA O BOTÃO DE DESCRIÇÃO --- */
@@ -269,4 +270,120 @@ button:hover {
     line-height: 30px;
 }
 
-/* === FIM DO CSS ATUALIZADO === */
+/* --- NOVOS ESTILOS (LINK E BUSCA) --- */
+
+.nav-link-container {
+    text-align: center;
+    margin: -10px 0 15px 0;
+}
+
+.nav-link {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #8c5a2e;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.nav-link:hover {
+    background-color: #fef9e4;
+    color: #6a3a0a;
+}
+
+.help-search-section .search-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.help-search-section .search-wrapper input {
+    flex: 1;
+    margin-top: 0;
+}
+
+.help-search-section .search-wrapper button {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+#help-search-results {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-result-item {
+    background: #fff;
+    border: 2px solid #b48a54;
+    border-radius: 8px;
+    padding: 12px;
+}
+.search-result-item h4 {
+    margin: 0 0 5px 0;
+    color: #6a3a0a;
+}
+.search-result-item p {
+    margin: 0;
+    white-space: pre-wrap; /* Mantém quebras de linha */
+}
+
+/* === NOVOS ESTILOS DE ESTADO === */
+
+.estado-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.estado-controls label {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.estado-controls select {
+    flex: 1;
+    margin: 0;
+}
+
+.estado-controls button {
+    margin: 0;
+}
+
+/* Re-estiliza o state-box para ser um slot */
+.state-box {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 12px;
+    min-height: 50px; /* Garante altura mínima */
+    justify-content: space-between;
+}
+
+.estado-nome {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #6a3a0a;
+}
+
+.remove-estado-btn {
+    align-self: flex-end; /* Coloca o botão no canto */
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    line-height: 28px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #f1a9a9; /* Cor vermelha suave */
+    border-color: #d98c8c;
+}
+
+.remove-estado-btn:hover {
+    background-color: #e88e8e;
+}
+
+/* Esconde o botão se o slot estiver vazio */
+.remove-estado-btn.hidden {
+    display: none;
+}

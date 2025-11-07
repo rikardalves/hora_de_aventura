@@ -1,40 +1,181 @@
 // Este é o conteúdo completo do seu novo arquivo: data.js
 
-const descricoes = {
-    "ASSUSTADO": "Sucesso com 5 ou 6 em todas as ações.\nCancela: cansado, furioso, inspirado.",
-    "ATURDIDO": "–1 em todas as ações.\nIgnora: concentrado.\nCancela: concentrado, inspirado.",
-    "CANSADO": "–2 em todas as ações.\nNão pode fazer ação e movimento.\nNão pode fazer dois movimentos.\nCancela: concentrado, furioso, inspirado, surpreso.",
-    "CEGADO": "Falha automaticamente em todas as ações de buscar, fichar, imitar, perceber ou rastrear que dependam da visão.\nEm todas as demais ações em que a visão seja importante, aumente a dificuldade em +1.\nCancela: concentrado.",
-    "CONCENTRADO": "Sucesso com 5 ou 6 em todas as ações.\nSucesso com 5 ou 6 em todas as reações.\nEspecificar: ação ou reação.\nPode repetir uma vez todas as falhas de seus dados ao fazer a ação ou reação.\n–2 em todas as demais ações.\nCancela: aturdido, cansado, concentrado (em outra coisa), confuso, furioso, inspirado, surpreso.",
-    "CONFUSO": "–1 em todas as ações sociais e mentais.\n–1 em todas as reações sociais.\nCancela: concentrado, inspirado.",
-    "CONGELADO": "Não pode fazer movimentos, nem ações físicas (exceto soltar-se), nem sociais, nem reações a ações físicas.\nQuebrar o gelo: ação de soltar-se com dificuldade 2 para descartar esse estado.\nIgnora: queimando (e descarta esse estado).\nCancela: queimando.",
-    "CRÉDULO": "Especificar: personagem.\n–1 em todas as reações sociais frente a essa personagem.\nConfiança quebrada: se a personagem atacar você, trair ou destruir a sua confiança, ganhe decepcionado com essa mesma personagem.\nCancela: assustado, decepcionado (com a mesma personagem).",
-    "DECEPCIONADO": "Especificar: personagem.\n+1 em todas as suas reações sociais frente a essa personagem.\nCancela: crédulo (com a mesma personagem), deslumbrado (com a mesma personagem), enamorado (da mesma personagem).",
-    "DESLUMBRADO": "Especificar: personagem.\n–1 às reações sociais da personagem.\n–1 em qualquer ação que não tenha relação com a personagem.\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem), deslumbrado (com a mesma personagem), enamorado (de outra personagem).",
-    "DIMINUTO": "Precisa de dois movimentos para se mover uma área.\n+2 em ações de espreitar, se esconder, esquivar e roubar.\n–2 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nPerde dois níveis de saúde.\nObjetos cotidianos podem bloquear seu caminho.",
-    "DOENTE": "–2 em todas as ações e reações.\nIgnora: concentrado, empanturrado, furioso.\nCancela: concentrado, empanturrado, furioso.",
-    "EMPANTURRADO": "–2 na ação de engolir.\n–1 no restante das ações e reações físicas.\nIgnora: esfomeado.\nCancela: esfomeado.",
-    "ENAMORADO": "Especificar: personagem.\n–2 em reações sociais frente à personagem.\n+1 em qualquer ação destinada a proteger a personagem.\nIgnora: deslumbrado (pela mesma personagem).\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem), deslumbrado (com outra personagem), enamorado (de outra personagem).",
-    "ENFEITIÇADO": "Especificar: ação.\nCada turno: faz a action.\nCancela: concentrado, inspirado.",
-    "ESCONDIDO": "Imune a qualquer ação exceto buscar.\nExposto: se fizer qualquer ação que permita reação de outra personagem e falhar, perde o estado escondido.\nAlgumas ações podem significar perder o estado escondido até mesmo se for bem-sucedido.",
-    "ESFOMEADO": "+2 na ação de engolir.\n–1 no resto das ações físicas.",
-    "ESQUISITÃO": "–2 nas ações sociais.\n+1 nas reações sociais.",
-    "FURIOSO": "+1 no dano de ação de ataque corpo a corpo.\n+1 em ações físicas que usem força.\n–1 nas demais ações.\nIgnora: escondido.\nCancela: aturdido, cansado, concentrado, para baixo, inspirado, escondido.",
-    "GIGANTE": "Nos espaços fechados você encontrará obstáculos continuamente.\nNo exterior, você poderá passar pela maioria das barreiras sem se preocupar.\nSem modificações.",
-    "GRANDE": "–2 na ação de esquivar.\n–2 em ações de espreitar, se esconder e roubar.\n+2 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na força física.\nGanha dois níveis de saúde extras.",
-    "IMOBILIZADO": "Não pode fazer ações físicas (exceto soltar-se) nem movimentos.\n–2 nas reações contra ações físicas.\nAmordaçado (opcional): –2 nas ações sociais.\nCancela: assustado, aturdido, cansado, concentrado, para baixo, furioso, inspirado, surpreso.",
-    "IMPRESSIONADO": "Especificar: personagem.\n–1 em reações sociais frente à personagem.\n–1 em todas as ações que tenham a personagem como alvo.\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem).",
-    "INCONSCIENTE": "Não pode se mover, fazer ações nem reagir a ações de outros.\nImune a todas as ações sociais.\nIgnora: todos os estados (exceto morto).\nCancela: aturdido, cansado, concentrado, confuso, furioso, inspirado, surpreso.",
-    "INSPIRADO": "Especificar: tarefa.\n+1 em ações destinadas a cumprir essa tarefa.\nCancela: assustado, aturdido, cansado, concentrado, para baixo, furioso, inspirado (para outra coisa), surpreso.",
-    "MANCANDO": "Precisa de dois movimentos para se mover uma área.\n+1 na dificuldade das ações de correr, saltar, escalar ou outras que precisem do uso das pernas.\nCancela: concentrado, inspirado.",
-    "MÉDIO": "+1 em ações de espreitar, se esconder, esquivar e roubar.\n–1 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nPerde um nível de saúde.",
-    "MIOLO MOLE": "Não pode fazer ações mentais nem sociais.\nImune a ações mentais ou sociais.\nIgnora: assustado, aturdido, cansado, concentrado, crédulo, confuso, para baixo, decepcionado, deslumbrado, enamorado, furioso, impressionado, inspirado, escondido, surpreso.\nCancela: todos esses mesmos estados.",
-    "MORTO": "Não pode fazer ações de nenhum tipo.\nImune a todas as ações.\nIgnora: todos os demais estados.\nCancela: todos os demais estados.",
-    "PARALISADO": "Não pode fazer movimentos, nem ações físicas, nem sociais.\nNão pode reagir frente a ações físicas.",
-    "PARA BAIXO": "Não pode gastar pontos de Herói.\nOs resultados 1 nos seus dados anulam sucessos normais, mas [Sucesso Magnífico] não é afetado.\nCancela: concentrado, furioso, inspirado.",
-    "PEQUENO": "–1 na ação de esquivar.\n–1 em ações de espreitar, se esconder e roubar.\n+1 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nGanha um nível de saúde extra.",
-    "QUEIMANDO": "A cada turno perde um nível de saúde.\nApagar: ação de soltar-se com dificuldade 1. Descarte esse estado se tiver sucesso.\nO fogo se estende: em ação de ataque pode usar [Sucesso Magnífico] para causar estado queimando no seu alvo.\nCancela: congelado.",
-    "SURPRESO": "Não pode fazer ação nenhuma.\nNão pode fazer dois movimentos.\n–1 em reações físicas.\nCancela: concentrado."
+const estadosData = {
+    "ASSUSTADO": {
+        desc: "Sucesso com 5 ou 6 em todas as ações.\nCancela: cansado, furioso, inspirado.",
+        ignora: [],
+        cancela: ["CANSADO", "FURIOSO", "INSPIRADO"]
+    },
+    "ATURDIDO": {
+        desc: "–1 em todas as ações.\nIgnora: concentrado.\nCancela: concentrado, inspirado.",
+        ignora: ["CONCENTRADO"],
+        cancela: ["CONCENTRADO", "INSPIRADO"]
+    },
+    "CANSADO": {
+        desc: "–2 em todas as ações.\nNão pode fazer ação e movimento.\nNão pode fazer dois movimentos.\nCancela: concentrado, furioso, inspirado, surpreso.",
+        ignora: [],
+        cancela: ["CONCENTRADO", "FURIOSO", "INSPIRADO", "SURPRESO"]
+    },
+    "CEGADO": {
+        desc: "Falha automaticamente em todas as ações de buscar, fichar, imitar, perceber ou rastrear que dependam da visão.\nEm todas as demais ações em que a visão seja importante, aumente a dificuldade em +1.\nCancela: concentrado.",
+        ignora: [],
+        cancela: ["CONCENTRADO"]
+    },
+    "CONCENTRADO": {
+        desc: "Sucesso com 5 ou 6 em todas as ações.\nSucesso com 5 ou 6 em todas as reações.\nEspecificar: ação ou reação.\nPode repetir uma vez todas as falhas de seus dados ao fazer a ação ou reação.\n–2 em todas as demais ações.\nCancela: aturdido, cansado, concentrado (em outra coisa), confuso, furioso, inspirado, surpreso.",
+        ignora: [],
+        cancela: ["ATURDIDO", "CANSADO", "CONCENTRADO", "CONFUSO", "FURIOSO", "INSPIRADO", "SURPRESO"]
+    },
+    "CONFUSO": {
+        desc: "–1 em todas as ações sociais e mentais.\n–1 em todas as reações sociais.\nCancela: concentrado, inspirado.",
+        ignora: [],
+        cancela: ["CONCENTRADO", "INSPIRADO"]
+    },
+    "CONGELADO": {
+        desc: "Não pode fazer movimentos, nem ações físicas (exceto soltar-se), nem sociais, nem reações a ações físicas.\nQuebrar o gelo: ação de soltar-se com dificuldade 2 para descartar esse estado.\nIgnora: queimando (e descarta esse estado).\nCancela: queimando.",
+        ignora: ["QUEIMANDO"],
+        cancela: ["QUEIMANDO"]
+    },
+    "CRÉDULO": {
+        desc: "Especificar: personagem.\n–1 em todas as reações sociais frente a essa personagem.\nConfiança quebrada: se a personagem atacar você, trair ou destruir a sua confiança, ganhe decepcionado com essa mesma personagem.\nCancela: assustado, decepcionado (com a mesma personagem).",
+        ignora: [],
+        cancela: ["ASSUSTADO", "DECEPCIONADO"]
+    },
+    "DECEPCIONADO": {
+        desc: "Especificar: personagem.\n+1 em todas as suas reações sociais frente a essa personagem.\nCancela: crédulo (com a mesma personagem), deslumbrado (com a mesma personagem), enamorado (da mesma personagem).",
+        ignora: [],
+        cancela: ["CRÉDULO", "DESLUMBRADO", "ENAMORADO"]
+    },
+    "DESLUMBRADO": {
+        desc: "Especificar: personagem.\n–1 às reações sociais da personagem.\n–1 em qualquer ação que não tenha relação com a personagem.\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem), deslumbrado (com a mesma personagem), enamorado (de outra personagem).",
+        ignora: [],
+        cancela: ["CRÉDULO", "DECEPCIONADO", "DESLUMBRADO", "ENAMORADO"]
+    },
+    "ENSURDECIDO": {
+        desc: "Falha automaticamente em todas as ações de buscar, fichar, imitar, perceber ou rastrear que dependam da audição.\nEm todas as demais ações em que o ouvido seja importante aumente a dificuldade em +1.\nCancela: concentrado.",
+        ignora: [],
+        cancela: ["CONCENTRADO"]
+    },
+    "DIMINUTO": {
+        desc: "Precisa de dois movimentos para se mover uma área.\n+2 em ações de espreitar, se esconder, esquivar e roubar.\n–2 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nPerde dois níveis de saúde.\nObjetos cotidianos podem bloquear seu caminho.",
+        ignora: [],
+        cancela: []
+    },
+    "DOENTE": {
+        desc: "–2 em todas as ações e reações.\nIgnora: concentrado, empanturrado, furioso.\nCancela: concentrado, empanturrado, furioso.",
+        ignora: ["CONCENTRADO", "EMPANTURRADO", "FURIOSO"],
+        cancela: ["CONCENTRADO", "EMPANTURRADO", "FURIOSO"]
+    },
+    "EMPANTURRADO": {
+        desc: "–2 na ação de engolir.\n–1 no restante das ações e reações físicas.\nIgnora: esfomeado.\nCancela: esfomeado.",
+        ignora: ["ESFOMEADO"],
+        cancela: ["ESFOMEADO"]
+    },
+    "ENAMORADO": {
+        desc: "Especificar: personagem.\n–2 em reações sociais frente à personagem.\n+1 em qualquer ação destinada a proteger a personagem.\nIgnora: deslumbrado (pela mesma personagem).\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem), deslumbrado (com outra personagem), enamorado (de outra personagem).",
+        ignora: ["DESLUMBRADO"],
+        cancela: ["CRÉDULO", "DECEPCIONADO", "DESLUMBRADO", "ENAMORADO"]
+    },
+    "ENFEITIÇADO": {
+        desc: "Especificar: ação.\nCada turno: faz a action.\nCancela: concentrado, inspirado.",
+        ignora: [],
+        cancela: ["CONCENTRADO", "INSPIRADO"]
+    },
+    "ESCONDIDO": {
+        desc: "Imune a qualquer ação exceto buscar.\nExposto: se fizer qualquer ação que permita reação de outra personagem e falhar, perde o estado escondido.\nAlgumas ações podem significar perder o estado escondido até mesmo se for bem-sucedido.",
+        ignora: [],
+        cancela: []
+    },
+    "ESFOMEADO": {
+        desc: "+2 na ação de engolir.\n–1 no resto das ações físicas.",
+        ignora: [],
+        cancela: []
+    },
+    "ESQUISITÃO": {
+        desc: "–2 nas ações sociais.\n+1 nas reações sociais.",
+        ignora: [],
+        cancela: []
+    },
+    "FURIOSO": {
+        desc: "+1 no dano de ação de ataque corpo a corpo.\n+1 em ações físicas que usem força.\n–1 nas demais ações.\nIgnora: escondido.\nCancela: aturdido, cansado, concentrado, para baixo, inspirado, escondido.",
+        ignora: ["ESCONDIDO"],
+        cancela: ["ATURDIDO", "CANSADO", "CONCENTRADO", "PARA BAIXO", "INSPIRADO", "ESCONDIDO"]
+    },
+    "GIGANTE": {
+        desc: "Nos espaços fechados você encontrará obstáculos continuamente.\nNo exterior, você poderá passar pela maioria das barreiras sem se preocupar.\nSem modificações.",
+        ignora: [],
+        cancela: []
+    },
+    "GRANDE": {
+        desc: "–2 na ação de esquivar.\n–2 em ações de espreitar, se esconder e roubar.\n+2 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na força física.\nGanha dois níveis de saúde extras.",
+        ignora: [],
+        cancela: []
+    },
+    "IMOBILIZADO": {
+        desc: "Não pode fazer ações físicas (exceto soltar-se) nem movimentos.\n–2 nas reações contra ações físicas.\nAmordaçado (opcional): –2 nas ações sociais.\nCancela: assustado, aturdido, cansado, concentrado, para baixo, furioso, inspirado, surpreso.",
+        ignora: [],
+        cancela: ["ASSUSTADO", "ATURDIDO", "CANSADO", "CONCENTRADO", "PARA BAIXO", "FURIOSO", "INSPIRADO", "SURPRESO"]
+    },
+    "IMPRESSIONADO": {
+        desc: "Especificar: personagem.\n–1 em reações sociais frente à personagem.\n–1 em todas as ações que tenham a personagem como alvo.\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem).",
+        ignora: [],
+        cancela: ["CRÉDULO", "DECEPCIONADO"]
+    },
+    "INCONSCIENTE": {
+        desc: "Não pode se mover, fazer ações nem reagir a ações de outros.\nImune a todas as ações sociais.\nIgnora: todos os estados (exceto morto).\nCancela: aturdido, cansado, concentrado, confuso, furioso, inspirado, surpreso.",
+        ignora: ["TODOS (EXCETO MORTO)"],
+        cancela: ["ATURDIDO", "CANSADO", "CONCENTRADO", "CONFUSO", "FURIOSO", "INSPIRADO", "SURPRESO"]
+    },
+    "INSPIRADO": {
+        desc: "Especificar: tarefa.\n+1 em ações destinadas a cumprir essa tarefa.\nCancela: assustado, aturdido, cansado, concentrado, para baixo, furioso, inspirado (para outra coisa), surpreso.",
+        ignora: [],
+        cancela: ["ASSUSTADO", "ATURDIDO", "CANSADO", "CONCENTRADO", "PARA BAIXO", "FURIOSO", "INSPIRADO", "SURPRESO"]
+    },
+    "MANCANDO": {
+        desc: "Precisa de dois movimentos para se mover uma área.\n+1 na dificuldade das ações de correr, saltar, escalar ou outras que precisem do uso das pernas.\nCancela: concentrado, inspirado.",
+        ignora: [],
+        cancela: ["CONCENTRADO", "INSPIRADO"]
+    },
+    "MÉDIO": {
+        desc: "+1 em ações de espreitar, se esconder, esquivar e roubar.\n–1 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nPerde um nível de saúde.",
+        ignora: [],
+        cancela: []
+    },
+    "MIOLO MOLE": {
+        desc: "Não pode fazer ações mentais nem sociais.\nImune a ações mentais ou sociais.\nIgnora: assustado, aturdido, cansado, concentrado, crédulo, confuso, para baixo, decepcionado, deslumbrado, enamorado, furioso, impressionado, inspirado, escondido, surpreso.\nCancela: todos esses mesmos estados.",
+        ignora: ["ASSUSTADO", "ATURDIDO", "CANSADO", "CONCENTRADO", "CRÉDULO", "CONFUSO", "PARA BAIXO", "DECEPCIONADO", "DESLUMBRADO", "ENAMORADO", "FURIOSO", "IMPRESSIONADO", "INSPIRADO", "ESCONDIDO", "SURPRESO"],
+        cancela: ["ASSUSTADO", "ATURDIDO", "CANSADO", "CONCENTRADO", "CRÉDULO", "CONFUSO", "PARA BAIXO", "DECEPCIONADO", "DESLUMBRADO", "ENAMORADO", "FURIOSO", "IMPRESSIONADO", "INSPIRADO", "ESCONDIDO", "SURPRESO"]
+    },
+    "MORTO": {
+        desc: "Não pode fazer ações de nenhum tipo.\nImune a todas as ações.\nIgnora: todos os demais estados.\nCancela: todos os demais estados.",
+        ignora: ["TODOS"],
+        cancela: ["TODOS"]
+    },
+    "PARALISADO": {
+        desc: "Não pode fazer movimentos, nem ações físicas, nem sociais.\nNão pode reagir frente a ações físicas.",
+        ignora: [],
+        cancela: []
+    },
+    "PARA BAIXO": {
+        desc: "Não pode gastar pontos de Herói.\nOs resultados 1 nos seus dados anulam sucessos normais, mas [Sucesso Magnífico] não é afetado.\nCancela: concentrado, furioso, inspirado.",
+        ignora: [],
+        cancela: ["CONCENTRADO", "FURIOSO", "INSPIRADO"]
+    },
+    "PEQUENO": {
+        desc: "–1 na ação de esquivar.\n–1 em ações de espreitar, se esconder e roubar.\n+1 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nGanha um nível de saúde extra.",
+        ignora: [],
+        cancela: []
+    },
+    "QUEIMANDO": {
+        desc: "A cada turno perde um nível de saúde.\nApagar: ação de soltar-se com dificuldade 1. Descarte esse estado se tiver sucesso.\nO fogo se estende: em ação de ataque pode usar [Sucesso Magnífico] para causar estado queimando no seu alvo.\nCancela: congelado.",
+        ignora: [],
+        cancela: ["CONGELADO"]
+    },
+    "SURPRESO": {
+        desc: "Não pode fazer ação nenhuma.\nNão pode fazer dois movimentos.\n–1 em reações físicas.\nCancela: concentrado.",
+        ignora: [],
+        cancela: ["CONCENTRADO"]
+    }
 };
 
 const proezaMap = {
@@ -162,7 +303,7 @@ const proezaMap = {
     "Falastrice": [
         { name: "Autoengano", cost: 1, desc: "Você é capaz de acreditar em suas próprias mentiras. Você pode usar Falastrice no lugar de Teimosia para ações de concentrar-se." },
         { name: "Dissimulado", cost: 1, desc: "Sua personagem é muito boa passando despercebida. Você recebe +1 nas ações de esconder." },
-        { name: "Egocêntrico", cost: 1, desc: "Você ganha a opção de fazer ações de animar ou cantar sobre si mesmo usando Falastrice no lugar de Maneirice." },
+        { name: "Egocêntrico", cost: 1, desc: "Você ganha a opçãode fazer ações de animar ou cantar sobre si mesmo usando Falastrice no lugar de Maneirice." },
         { name: "Escapista", cost: 1, desc: "Sua personagem é um mestre nos truques do escapismo. Quando fizer uma ação de soltar-se para se livrar de cordas, correntes e similares (mas não de outra personagem), você pode usar Falastrice no lugar de Músculos e, além disso, recebe +1." },
         { name: "Fanfarrão", cost: 1, desc: "Você é bom fingindo que é o que, na verdade, não é. Você pode usar Falastrice no lugar de Contatos em ações de impressionar." },
         { name: "Farsante", cost: 1, desc: "Sua personagem é um perfeito mentiroso. Nas ações de enganar, você tem sucesso com 3 ou mais no lugar de com o 4 ou mais habitual." },
