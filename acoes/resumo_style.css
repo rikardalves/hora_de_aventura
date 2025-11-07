@@ -1,0 +1,167 @@
+/* Importa a fonte */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background-color: #fdfbf5; /* Fundo de pergaminho claro */
+    color: #4b341b; /* Texto marrom escuro */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #6a3a0a; /* Título marrom */
+}
+
+h3 {
+    color: #6a3a0a;
+    border-bottom: 3px solid #b48a54;
+    padding-bottom: 5px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+/* Caixa de Estilo Padrão */
+.styled-box {
+    background: #fef9e4; /* Fundo de papel amarelo */
+    border: 5px solid #6a3a0a; /* Borda marrom principal */
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(106, 58, 10, 0.1); /* Sombra marrom sutil */
+}
+
+/* --- Filtros --- */
+#search-bar {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #b48a54;
+    font-size: 1.1em;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+}
+
+.filter-grids {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.filter-section strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #8c5a2e;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 2px solid #b48a54;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.filter-group label:hover {
+    background: #fffbef;
+}
+
+.filter-group input:checked + span {
+    font-weight: bold;
+}
+
+/* --- Lista de Ações --- */
+.action-item {
+    background: #fef9e4;
+    border: 3px solid #6a3a0a;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-item:hover {
+    background: #fffbef;
+    border-color: #8c5a2e;
+}
+
+.action-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.action-item-header .tags {
+    font-size: 0.7em;
+    font-weight: normal;
+}
+
+.tags span {
+    display: inline-block;
+    background: #b48a54;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+/* Estilos de Tags Específicos */
+.tags span[data-tipo="FÍSICO"] { background-color: #c0392b; }
+.tags span[data-tipo="MENTAL"] { background-color: #2980b9; }
+.tags span[data-tipo="SOCIAL"] { background-color: #27ae60; }
+.tags span[data-tipo="COOPERATIVO"] { background-color: #f39c12; }
+.tags span[data-tipo="CENA"] { background-color: #8e44ad; }
+
+.action-details {
+    display: none; /* Escondido por padrão */
+    padding: 15px;
+    background: #fff;
+    border: 2px dashed #b48a54;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    margin-top: -5px; /* Cola no header */
+    line-height: 1.6;
+}
+
+/* Mostra os detalhes quando o item tem a classe 'open' */
+.action-item.open + .action-details {
+    display: block;
+}
+
+.action-item.open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Classe de utilidade para esconder itens filtrados */
+.hidden {
+    display: none !important;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .filter-grids {
+        grid-template-columns: 1fr;
+    }
+}
