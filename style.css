@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+/* === INÍCIO DO CSS ATUALIZADO === */
+body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background-color: #fdfbf5;
+    /* Fundo de pergaminho claro */
+    color: #4b341b;
+    /* Texto marrom escuro */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #6a3a0a;
+    /* Título marrom */
+}
+
+h3 {
+    color: #6a3a0a;
+    border-bottom: 3px solid #b48a54;
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+/* Estilizando o .section original para parecer a ficha PDF */
+.section {
+    background: #fef9e4;
+    /* Fundo de papel amarelo */
+    border: 5px solid #6a3a0a;
+    /* Borda marrom principal */
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    /* Espaçamento entre seções */
+    box-shadow: 0 4px 6px rgba(106, 58, 10, 0.1);
+    /* Sombra marrom sutil */
+}
+
+label {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+    color: #8c5a2e;
+    /* Rótulos em marrom médio */
+}
+
+input[type="text"],
+textarea,
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #b48a54;
+    /* Borda marrom claro */
+    margin-top: 4px;
+    box-sizing: border-box;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background: #fff;
+    color: #4b341b;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+button {
+    background-color: #ffd166;
+    border: 2px solid #fcbf49;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px 5px 5px 0;
+    font-weight: bold;
+    color: #4b341b;
+}
+
+button:hover {
+    background-color: #fcbf49;
+}
+
+/* Mantém os estilos originais que funcionam */
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.attr-box,
+.state-box {
+    flex: 1 1 30%;
+    min-width: 250px;
+    /* Adiciona o estilo de caixa interna */
+    background: #fdfbf5;
+    border: 2px solid #b48a54;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* --- INÍCIO: NOVOS ESTILOS DE CORAÇÃO --- */
+.hearts {
+    /* Ajusta o container para os corações */
+    display: flex;
+    align-items: center;
+}
+
+.hearts input[type="checkbox"] {
+    /* 1. Esconde o checkbox padrão */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: none;
+
+    /* 2. Define o espaço para o coração */
+    width: 30px;
+    height: 35px;
+    /* Um pouco mais de altura para o caractere */
+    margin-right: 5px;
+    cursor: pointer;
+
+    /* 3. Prepara para o coração (pseudo-elemento) */
+    position: relative;
+    display: inline-block;
+    /* Garante o alinhamento */
+    /* Ajuste vertical para alinhar com o texto "Níveis de Saúde" */
+    vertical-align: middle;
+}
+
+/* 4. Cria o coração (estado padrão: vermelho) */
+.hearts input[type="checkbox"]::before {
+    content: '♥';
+    /* Caractere de coração */
+    font-size: 35px;
+    /* Tamanho do coração */
+    color: red;
+
+    /* Centraliza o coração no espaço */
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    /* Adiciona uma leve borda para destacar */
+    -webkit-text-stroke: 1px #a00;
+    /* Borda vermelha escura */
+    text-stroke: 1px #a00;
+
+    transition: all 0.1s ease-in-out;
+}
+
+/* 5. Muda a cor quando marcado (estado checado: preto) */
+.hearts input[type="checkbox"]:checked::before {
+    color: black;
+    -webkit-text-stroke: 1px #333;
+    /* Borda cinza escura */
+    text-stroke: 1px #333;
+}
+
+/* --- FIM: NOVOS ESTILOS DE CORAÇÃO --- */
+
+#equip-preset-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+#equip-preset-controls select {
+    flex: 1;
+    margin-top: 0;
+}
+
+#equip-preset-controls button {
+    margin: 0;
+}
+
+.equip-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.equip-header label {
+    flex: 1;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-align: center;
+    margin-top: 0;
+    color: #8c5a2e;
+}
+
+.equip-header label.equip-arma-label {
+    flex: 2;
+    text-align: left;
+}
+
+.equip-header label.equip-remove-label {
+    width: 32px;
+}
+
+.equip-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.equip-item input {
+    flex: 1;
+    margin: 0;
+    text-align: center;
+}
+
+.equip-item input.equip-arma {
+    flex: 2;
+    text-align: left;
+}
+
+.equip-item button {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.save-load {
+    text-align: center;
+    margin-top: 20px;
+    /* Adiciona o estilo de caixa */
+    background: #fef9e4;
+    border: 5px solid #6a3a0a;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(106, 58, 10, 0.1);
+}
+
+.descricao-estado {
+    background: #fff4d9;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 0.9em;
+    width: 100%;
+    /* Garante que ocupe o espaço */
+}
+
+/* --- ESTILOS PARA O BOTÃO DE DESCRIÇÃO --- */
+.proeza-slot {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.proeza-slot select.proeza {
+    flex: 1;
+    margin: 0;
+}
+
+.proeza-desc-btn {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 30px;
+}
+
+/* === FIM DO CSS ATUALIZADO === */
