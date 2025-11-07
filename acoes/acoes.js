@@ -9,7 +9,7 @@ const allActions = [
         nome: "Equipar-se",
         atributo: "Jeitinho",
         descricao: "Retira algo da mochila.",
-        tags: [],
+        tags: ["MENTAL"],
         detalhes: `<strong>Dificuldade:</strong> O quão rebuscado o objeto é.<br>
             0: Lanche, corda...<br>
             1: Tocha, adagas...<br>

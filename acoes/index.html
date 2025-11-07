@@ -6,12 +6,18 @@
     <title>Resumo de Ações - Hora de Aventura RPG</title>
     <!-- Importa a fonte e o CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="resumo_style.css">
+    <!-- Assumindo que o CSS está na mesma pasta -->
+    <link rel="stylesheet" href="resumo_style.css"> 
 </head>
 <body>
 
     <div class="container">
         <h1>Resumo de Ações</h1>
+        
+        <!-- LINK ADICIONADO -->
+        <div class="nav-link-container">
+            <a href="../index.html" class="nav-link">&larr; Voltar para Ficha</a>
+        </div>
         
         <!-- --- Área de Filtragem --- -->
         <div class="filter-container styled-box">
@@ -40,7 +46,10 @@
         </div>
     </div>
 
-    <!-- Importa os dados primeiro, depois o script -->
+    <!-- 
+      Assumindo que os scripts estão na mesma pasta.
+      'acoes.js' (dados) deve vir ANTES de 'resumo_script.js' (lógica).
+    -->
     <script src="acoes.js"></script>
     <script src="resumo_script.js"></script>
 </body>

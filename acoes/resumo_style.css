@@ -14,6 +14,25 @@ body {
     margin: 0 auto;
 }
 
+.nav-link-container {
+    text-align: center;
+    margin: -10px 0 15px 0;
+}
+
+.nav-link {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #8c5a2e;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.nav-link:hover {
+    background-color: #fef9e4;
+    color: #6a3a0a;
+}
+
 h1 {
     text-align: center;
     color: #6a3a0a; /* Título marrom */
