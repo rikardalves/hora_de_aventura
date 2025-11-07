@@ -1,251 +1,54 @@
+// === ADICIONADO DE VOLTA ===
+// Estas duas linhas estavam faltando e impediam o script de rodar.
 const atributosLista = ['Jeitinho', 'Confusão', 'Músculos', 'Cachola', 'Contatos', 'Esperteza', 'Falastrice', 'Maneirice', 'Teimosia'];
 const estadosLista = ["QUEIMANDO", "CANSADO", "CONCENTRADO", "ASSUSTADO", "CEGADO", "CRÉULO", "ATURDIDO", "MANCANDO", "CONFUSO", "CONGELADO", "DESLUMBRADO", "ENSURDECIDO", "PARA BAIXO", "EMPANTURRADO", "FURIOSO", "DECEPCIONADO", "ENAMORADO", "ESFOMEADO", "ENFEITIÇADO", "IMOBILIZADO", "MORTO", "INCONSCIENTE", "INSPIRADO", "ESCONDIDO", "IMPRESSIONADO", "MIOLO MOLE", "PARALISADO", "DOENTE", "DIMINUTO", "PEQUENO", "MÉDIO", "GRANDE", "GIGANTE", "SURPRESO", "ESQUISITÃO"];
+// =============================
 
-const descricoes = {
-    "ASSUSTADO": "Sucesso com 5 ou 6 em todas as ações.\nCancela: cansado, furioso, inspirado.",
-    "ATURDIDO": "–1 em todas as ações.\nIgnora: concentrado.\nCancela: concentrado, inspirado.",
-    "CANSADO": "–2 em todas as ações.\nNão pode fazer ação e movimento.\nNão pode fazer dois movimentos.\nCancela: concentrado, furioso, inspirado, surpreso.",
-    "CEGADO": "Falha automaticamente em todas as ações de buscar, fichar, imitar, perceber ou rastrear que dependam da visão.\nEm todas as demais ações em que a visão seja importante, aumente a dificuldade em +1.\nCancela: concentrado.",
-    "CONCENTRADO": "Sucesso com 5 ou 6 em todas as ações.\nSucesso com 5 ou 6 em todas as reações.\nEspecificar: ação ou reação.\nPode repetir uma vez todas as falhas de seus dados ao fazer a ação ou reação.\n–2 em todas as demais ações.\nCancela: aturdido, cansado, concentrado (em outra coisa), confuso, furioso, inspirado, surpreso.",
-    "CONFUSO": "–1 em todas as ações sociais e mentais.\n–1 em todas as reações sociais.\nCancela: concentrado, inspirado.",
-    "CONGELADO": "Não pode fazer movimentos, nem ações físicas (exceto soltar-se), nem sociais, nem reações a ações físicas.\nQuebrar o gelo: ação de soltar-se com dificuldade 2 para descartar esse estado.\nIgnora: queimando (e descarta esse estado).\nCancela: queimando.",
-    "CRÉDULO": "Especificar: personagem.\n–1 em todas as reações sociais frente a essa personagem.\nConfiança quebrada: se a personagem atacar você, trair ou destruir a sua confiança, ganhe decepcionado com essa mesma personagem.\nCancela: assustado, decepcionado (com a mesma personagem).",
-    "DECEPCIONADO": "Especificar: personagem.\n+1 em todas as suas reações sociais frente a essa personagem.\nCancela: crédulo (com a mesma personagem), deslumbrado (com a mesma personagem), enamorado (da mesma personagem).",
-    "DESLUMBRADO": "Especificar: personagem.\n–1 às reações sociais da personagem.\n–1 em qualquer ação que não tenha relação com a personagem.\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem), deslumbrado (com a mesma personagem), enamorado (de outra personagem).",
-    "DIMINUTO": "Precisa de dois movimentos para se mover uma área.\n+2 em ações de espreitar, se esconder, esquivar e roubar.\n–2 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nPerde dois níveis de saúde.\nObjetos cotidianos podem bloquear seu caminho.",
-    "DOENTE": "–2 em todas as ações e reações.\nIgnora: concentrado, empanturrado, furioso.\nCancela: concentrado, empanturrado, furioso.",
-    "EMPANTURRADO": "–2 na ação de engolir.\n–1 no restante das ações e reações físicas.\nIgnora: esfomeado.\nCancela: esfomeado.",
-    "ENAMORADO": "Especificar: personagem.\n–2 em reações sociais frente à personagem.\n+1 em qualquer ação destinada a proteger a personagem.\nIgnora: deslumbrado (pela mesma personagem).\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem), deslumbrado (com outra personagem), enamorado (de outra personagem).",
-    "ENFEITIÇADO": "Especificar: ação.\nCada turno: faz a action.\nCancela: concentrado, inspirado.",
-    "ESCONDIDO": "Imune a qualquer ação exceto buscar.\nExposto: se fizer qualquer ação que permita reação de outra personagem e falhar, perde o estado escondido.\nAlgumas ações podem significar perder o estado escondido até mesmo se for bem-sucedido.",
-    "ESFOMEADO": "+2 na ação de engolir.\n–1 no resto das ações físicas.",
-    "ESQUISITÃO": "–2 nas ações sociais.\n+1 nas reações sociais.",
-    "FURIOSO": "+1 no dano de ação de ataque corpo a corpo.\n+1 em ações físicas que usem força.\n–1 nas demais ações.\nIgnora: escondido.\nCancela: aturdido, cansado, concentrado, para baixo, inspirado, escondido.",
-    "GIGANTE": "Nos espaços fechados você encontrará obstáculos continuamente.\nNo exterior, você poderá passar pela maioria das barreiras sem se preocupar.\nSem modificações.",
-    "GRANDE": "–2 na ação de esquivar.\n–2 em ações de espreitar, se esconder e roubar.\n+2 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na força física.\nGanha dois níveis de saúde extras.",
-    "IMOBILIZADO": "Não pode fazer ações físicas (exceto soltar-se) nem movimentos.\n–2 nas reações contra ações físicas.\nAmordaçado (opcional): –2 nas ações sociais.\nCancela: assustado, aturdido, cansado, concentrado, para baixo, furioso, inspirado, surpreso.",
-    "IMPRESSIONADO": "Especificar: personagem.\n–1 em reações sociais frente à personagem.\n–1 em todas as ações que tenham a personagem como alvo.\nCancela: crédulo (com a mesma personagem), decepcionado (com a mesma personagem).",
-    "INCONSCIENTE": "Não pode se mover, fazer ações nem reagir a ações de outros.\nImune a todas as ações sociais.\nIgnora: todos os estados (exceto morto).\nCancela: aturdido, cansado, concentrado, confuso, furioso, inspirado, surpreso.",
-    "INSPIRADO": "Especificar: tarefa.\n+1 em ações destinadas a cumprir essa tarefa.\nCancela: assustado, aturdido, cansado, concentrado, para baixo, furioso, inspirado (para outra coisa), surpreso.",
-    "MANCANDO": "Precisa de dois movimentos para se mover uma área.\n+1 na dificuldade das ações de correr, saltar, escalar ou outras que precisem do uso das pernas.\nCancela: concentrado, inspirado.",
-    "MÉDIO": "+1 em ações de espreitar, se esconder, esquivar e roubar.\n–1 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nPerde um nível de saúde.",
-    "MIOLO MOLE": "Não pode fazer ações mentais nem sociais.\nImune a ações mentais ou sociais.\nIgnora: assustado, aturdido, cansado, concentrado, crédulo, confuso, para baixo, decepcionado, deslumbrado, enamorado, furioso, impressionado, inspirado, escondido, surpreso.\nCancela: todos esses mesmos estados.",
-    "MORTO": "Não pode fazer ações de nenhum tipo.\nImune a todas as ações.\nIgnora: todos os demais estados.\nCancela: todos os demais estados.",
-    "PARALISADO": "Não pode fazer movimentos, nem ações físicas, nem sociais.\nNão pode reagir frente a ações físicas.",
-    "PARA BAIXO": "Não pode gastar pontos de Herói.\nOs resultados 1 nos seus dados anulam sucessos normais, mas [Sucesso Magnífico] não é afetado.\nCancela: concentrado, furioso, inspirado.",
-    "PEQUENO": "–1 na ação de esquivar.\n–1 em ações de espreitar, se esconder e roubar.\n+1 em ações de lançar, levantar, bloquear, quebrar, saltar, submeter ou outras baseadas na forma física.\nGanha um nível de saúde extra.",
-    "QUEIMANDO": "A cada turno perde um nível de saúde.\nApagar: ação de soltar-se com dificuldade 1. Descarte esse estado se tiver sucesso.\nO fogo se estende: em ação de ataque pode usar [Sucesso Magnífico] para causar estado queimando no seu alvo.\nCancela: congelado.",
-    "SURPRESO": "Não pode fazer ação nenhuma.\nNão pode fazer dois movimentos.\n–1 em reações físicas.\nCancela: concentrado."
-};
+// --- FUNÇÕES DE INICIALIZAÇÃO (EXECUTADAS QUANDO A PÁGINA CARREGA) ---
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Popula dropdown de equipamentos
+    popularPresetsEquipamentos();
 
-// --- CÓDIGO DE PROEZAS (COM DESCRIÇÕES) ---
-const proezaMap = {
-    "Jeitinho": [
-        { name: "Armas improvisadas", cost: 1, desc: "Você é capaz de lutar com qualquer coisa que esteja a seu alcance. Sempre que puder usar os objetos que rodeiam você ou tirar coisas de sua sacola ou mochila para se defender, pode usar Jeitinho no lugar de Confusão para a ação de atacar." },
-        { name: "Arma incorporada", cost: 1, desc: "A personagem tem uma arma incorporada em seu corpo ou em sua armadura. Para usar sua arma incorporada, a personagem usa Jeitinho no lugar de Confusão, mas com as modificações habituais da arma." },
-        { name: "Bem equipado", cost: 1, desc: "Você está sempre preparado para qualquer situação. Adicione +1 a qualquer teste da ação de equipar-se." },
-        { name: "Blindado", cost: 1, desc: "Você tem partes metálicas que protegem seus pontos fracos. Reduz em um nível de saúde todo o dano sofrido, exceto dano mágico." },
-        { name: "Desmontar", cost: 1, desc: "Você é bom em reduzir os objetos a seus componentes. Você pode usar Jeitinho no lugar de Músculos para ações de soltar-se, bloquear e quebrar." },
-        { name: "Disco rígido", cost: 1, desc: "Seu cérebro é mecânico ou eletrônico e é capaz de gravar a informação que você recebe para consultá-la depois. Você pode usar Jeitinho no lugar de Cachola em todas as ações de lembrar." },
-        { name: "Dispositivo de camuflagem", cost: 1, desc: "Você tem um mecanismo de ocultação. Você pode usar Jeitinho no lugar de Falastrice em ações de esconder." },
-        { name: "Equipamento mágico", cost: 1, desc: "Quando você faz uma ação de equipar-se e tem sucessos magníficos, pode usá-los para que o objeto conseguido tenha proezas mágicas. Você precisa de um [Sucesso Magnífico] para que o objeto tenha uma proeza mágica e [dois Sucessos Magníficos] para que tenha uma proeza mágica poderosa." },
-        { name: "Boas ideias", cost: 1, desc: "Você tem ideias muito boas para invenções novas. Você recebe +2 nas ações de inventar." },
-        { name: "Gambiarra", cost: 1, desc: "Você é um mestre no remendo de coisas quebradas. Em qualquer ação de reparar, você tem sucesso com 3 ou mais no lugar de com o 4 ou mais habitual." },
-        { name: "Gênio Inventor", cost: 1, desc: "Você é incrível inventando um certo tipo de coisa. Escolha um tipo de treco e, quando faz uma ação de inventar para eles, recebe um sucesso automático na ação correspondente." },
-        { name: "Inventor rápido", cost: 1, desc: "Você é muito rápido inventando coisas. Gastando um ponto de Herói, você pode fazer uma ação de inventar em um turno no lugar de requerer uma cena. (Pode ser poderosa se eliminar o custo)." },
-        { name: "Improvisar", cost: 1, desc: "Você pode usar Jeitinho no lugar de Cachola em ações de ciência, estudar e saber." },
-        { name: "Olhos de robô", cost: 2, desc: "Você tem olhos de robô ou uns óculos bacanas. Você pode usar Jeitinho no lugar de Esperteza nas ações de buscar e perceber e nas reações à ação de ocultar." },
-        { name: "Partes mecânicas", cost: 1, desc: "Você é parte robô. Você pode usar Jeitinho no lugar de Músculos em três ações relacionadas com as suas partes mecânicas (Ex: pernas = cair, correr, saltar)." },
-        { name: "Provedor", cost: 1, desc: "Você sempre tem o que os demais precisam. Quando faz uma ação de equipar-se para conseguir um objeto que seja útil para outra personagem, você recebe um sucesso automático." },
-        { name: "Reatores", cost: 1, desc: "A personagem tem incorporado a si motores a jato. Ao voar, você pode se mover duas áreas no lugar de uma usando um movimento e ignorar qualquer obstáculo." },
-        { name: "Remendar", cost: 1, desc: "Você é rapidíssimo fazendo com que os aparatos estragados funcionem de novo. Você pode fazer a ação de reparar em um turno no lugar de uma cena, mas o reparo só funcionará durante um turno." }
-    ],
-    "Confusão": [
-        { name: "Ameaçador", cost: 1, desc: "Sua personagem tem um semblante violento. Você pode usar Confusão no lugar de Teimosia nas ações de assustar." },
-        { name: "Armado", cost: 1, desc: "Você sempre vai bem preparado para o combate. Quando você faz uma ação de equipar-se para tirar armas, pode usar Confusão no lugar de Jeitinho." },
-        { name: "Contra-ataque", cost: 1, desc: "Quando você reage diante de uma ação de ataque corpo a corpo e superá-la com ao menos um sucesso magnífico, pode fazer imediatamente uma ação de ataque gratuito contra a mesma personagem." },
-        { name: "Dança de guerra", cost: 1, desc: "Você pode usar Confusão no lugar de Maneirice em ações de dançar se você realizá-la para se preparar para uma luta." },
-        { name: "Estratégia", cost: 1, desc: "A personagem tem um talento especial para dirigir os outros em combate. Você pode fazer ações de animar com Confusão no lugar de Maneirice. Se tiver sucesso, a personagem em estado inspirado recebe +1 adicional." },
-        { name: "Forças da fraqueza", cost: 1, desc: "Você recebe +1 em Confusão quando só tiver um nível de saúde sem riscar e +2 quando todos os seus níveis de saúde estiverem riscados." },
-        { name: "Gelítsu", cost: 1, desc: "Você é um especialista na antiga arte ninja do gelítsu. Você pode usar Confusão no lugar de Jeitinho para equipar-se com armas ninja de gelo que são criadas do nada e podem causar o estado congelado." },
-        { name: "Grito de guerra", cost: 1, desc: "Em combate, você pode dar uivos horripilantes. Você pode usar Confusão no lugar de Teimosia nas ações de assustar quando está no meio de uma briga." },
-        { name: "Histórias de Guerra", cost: 1, desc: "Você sempre tem mil histórias sobre batalhas. Quando você conta um causo sobre elas, pode usar Confusão no lugar de Contatos em ações de impressionar." },
-        { name: "Inimigo preferido", cost: 1, desc: "Escolha um tipo de criatura (vampiros, pessoas doces...). Nas ações de ataques contra seres desse tipo, você vai ter sucesso se tirar 3 ou mais em seus dados." },
-        { name: "Insensível", cost: 2, desc: "A personagem é realmente difícil de ser afetada pela dor. Ignora o estado aturdido sempre que recebê-lo." },
-        { name: "Instintos de combate", cost: 1, desc: "Em situações de perigo, seus sentidos se aguçam. Quando você está envolvido em um combate, pode usar Confusão no lugar de Esperteza em ações de perceber e nas reações de espreitar." },
-        { name: "Investida", cost: 1, desc: "Se você tiver sucesso em uma ação de atacar corpo a corpo, pode gastar um ponto de Herói para fazer imediatamente uma ação gratuita de empurrar. (Pode ser poderosa se ignorar o custo)." },
-        { name: "Letal", cost: 1, desc: "Você é especialmente perigoso com uma arma concreta. Quando você tem sucesso em uma ação de ataque com essa arma, inflige ao alvo um nível adicional de dano." },
-        { name: "Lutador", cost: 2, desc: "A personagem é um lutador especialista que sabe como imobilizar seus inimigos. Você pode usar Confusão no lugar de Músculos nas ações e reações de prender e de soltar-se." },
-        { name: "Medir forças", cost: 1, desc: "Você tem um bom olho para saber que tipo de lutador são os combatentes. Quando você tiver visto uma personagem lutar, pode usar Confusão no lugar de Contatos em ações de fichar." },
-        { name: "Ninja", cost: 1, desc: "Você é um mestre nas técnicas ninjas de ocultação. Sempre que você fizer ações de espreitar ou esconder no meio de um combate, pode usar Confusão no lugar de Falastrice." },
-        { name: "Treinado", cost: 1, desc: "Você é especialmente hábil com uma arma a sua escolha. Em todas as ações de atacar com essa arma, você adiciona um dado a seus testes." },
-        { name: "Veterano", cost: 1, desc: "Você pode usar Confusão no lugar de Cachola para ações de saber relacionadas com as armas, as armaduras, a guerra e as coisas de combate em geral." }
-    ],
-    "Músculos": [
-        { name: "Acrobático", cost: 1, desc: "A personagem é boa girando e dando piruetas. Recebe +1 nas ações de escalar, saltar e cair." },
-        { name: "Agarrão poderoso", cost: 1, desc: "A personagem tem mãos (ou tentáculos, ou pinças) muito fortes. Recebe +1 nas ações de prender e +1 nas reações contra a ação de soltar-se." },
-        { name: "Alterações", cost: 1, desc: "A personagem pode transformar partes de seu corpo em armas ou outros objetos simples (chaves, alavancas). A personagem pode usar Músculos no lugar de Jeitinho em ações de equipar-se." },
-        { name: "Armas naturais", cost: 1, desc: "A personagem tem garras, dentes afiados, etc. Quando a personagem faz um ataque bem-sucedido sem armas, adiciona um nível de saúde extra ao dano causado." },
-        { name: "Asas", cost: 1, desc: "Você tem asas que permitem que você alce voo. Você ignora qualquer obstáculo que normalmente iria requerer uma ação de cair, saltar ou escalar." },
-        { name: "Barbatanas", cost: 1, desc: "Você tem nadadeiras nos pés ou nas mãos. Você não precisa da ação de nadar para se mover pela água." },
-        { name: "Bruto", cost: 1, desc: "A personagem pode lutar sem armas usando sua força bruta. Use o atributo Músculos no lugar de Confusão nas ações de atacar e nas reações ante essa mesma ação sempre que estiver desarmado." },
-        { name: "Duro", cost: 2, desc: "A personagem aguenta o dano melhor que os demais. Ignora a perda de um nível de saúde de cada ataque." },
-        { name: "Elástico", cost: 1, desc: "Você é capaz de esticar seus braços, suas pernas e o resto de seu corpo à vontade, até uma área de distância. Pode fazer ações (como atacar ou pegar) a uma área de distância." },
-        { name: "Encaixar", cost: 1, desc: "A personagem sabe como encaixar um bom golpe. Usa Músculos no lugar de Confusão como reação a qualquer ação de atacar de um ataque que não seja mágico." },
-        { name: "Escorregadio", cost: 1, desc: "A personagem sabe como se mover para evitar ser presa. Você ganha +1 nas ações de soltar-se e também nas reações diante de uma ação de prender." },
-        { name: "Fugidio", cost: 1, desc: "Você é um alvo difícil em combate. Você recebe +1 na reação diante das ações de ataque e 1 sucesso automático nas suas ações de esquivar." },
-        { name: "Fundir", cost: 1, desc: "O corpo da personagem é capaz de gerar armas e outros objetos a partir de seu sangue, ossos, etc. O objeto criado se desprende e a personagem perde um nível de saúde. Pode usar Músculos no lugar de Jeitinho em ações de equipar-se." },
-        { name: "Guelras", cost: 1, desc: "A personagem tem guelras e pode respirar sob a água como se fosse ar." },
-        { name: "Incansável", cost: 2, desc: "Não tem quem canse a sua personagem. Ignora o estado cansado sempre que recebê-lo. Não precisa fazer nenhuma ação de segurar para resistir à fadiga ou ao sono." },
-        { name: "Imune", cost: 2, desc: "Você é totalmente imune a um tipo de dano muito específico (espadas, relâmpagos, fogo mágico, etc). Ignora todos os níveis de saúde perdidos por esse tipo de dano." },
-        { name: "Massivo", cost: 1, desc: "A personagem tem o corpo pesado, gordo ou denso. É difícil de mover. Você pode usar Músculos no lugar de Confusão nas ações de empurrar e, além disso, você recebe +1 em suas reações contra essa mesma ação." },
-        { name: "Mudança de tamanho", cost: 1, desc: "Você pode mudar de tamanho usando um movimento para cada categoria que quiser mudar. Ao mudar de tamanho, você recebe todas as modificações do seu novo tamanho." },
-        { name: "Músculos temíveis", cost: 1, desc: "A personagem está tão musculosa que dá medinho. Você pode usar Músculos no lugar de Teimosia nas ações de assustar." },
-        { name: "Pânico explosivo", cost: 1, desc: "Quando a personagem recebe o estado assustado, sua ação seguinte é explodir, causando dano a todos os que se encontra em sua área (funciona como uma ação de atacar com Músculos). Depois de explodir, a personagem perde todos os seus níveis de saúde até a cena seguinte." },
-        { name: "Poses", cost: 1, desc: "Você sabe como tirar partido de seu corpo para impressionar a galera. A personagem pode usar Músculos no lugar de Maneirice nas ações de flertar." },
-        { name: "Preciso", cost: 1, desc: "Ao combater, você sabe como encontrar as áreas desprotegidas. Seus ataques ignoram qualquer redução de dano devido a uma armadura (mas não as de proezas). Gastando um ponto de Herói, seu ataque também pode ignorar a redução de dano das proezas 'Duro' e 'Resistente'." },
-        { name: "Pulador", cost: 1, desc: "A personagem tem as pernas fortes. Obtém um sucesso automático em qualquer ação de saltar." },
-        { name: "Regeneração", cost: 1, desc: "A personagem se cura de todo dano extremamente rápido, exceto do dano de um tipo concreto (especificar). A cada turno, a personagem recupera um nível de saúde." },
-        { name: "Resistente", cost: 1, desc: "Você é especialmente resistente a um tipo específico de dano (cortantes, porretadas, magia, fogo...). Você reduz em dois níveis de saúde toda perda proveniente desse tipo de dano." },
-        { name: "Toque mágico", cost: 1, desc: "A personagem tem um toque especial (fogo, gelo, paralisante). Se a personagem tocar outra (ataque ou submeter), pode usar um [Sucesso Magnífico] para colocar o alvo em um estado relacionado com o seu toque." },
-        { name: "Vigoroso", cost: 1, desc: "Você é um osso duro de roer: tem um nível adicional de saúde. (Sua personagem tem cinco caixas de vida)." }
-    ],
-    "Cachola": [
-        { name: "Aplicado", cost: 1, desc: "Você pode usar Cachola no lugar de Jeitinho em todas as ações de inventar." },
-        { name: "Ataque mental", cost: 1, desc: "Você tem a capacidade mágica de causar dano aos demais com o poder da mente. Você pode atacar com ele a um máximo de duas áreas de distância usando seu atributo Cachola no lugar de Confusão." },
-        { name: "Dedutivo", cost: 2, desc: "Você aplica a sua capacidade de raciocinar na forma que percebe ao seu redor. Você pode usar Cachola no lugar de Esperteza nas ações de buscar e de perceber, e também nas reações ante as ações de espreitar e esconder." },
-        { name: "Efeito dominó", cost: 1, desc: "Você vê facilmente como as coisas se conectam. Você pode fazer ações de bloquear com Cachola no lugar de Músculos." },
-        { name: "Erudito", cost: 1, desc: "Você é um especialista em uma área concreta do conhecimento (geografia, botânica...). Nesse campo, você sabe um monte e recebe um sucesso automático em qualquer ação de saber que tenha a ver com ele." },
-        { name: "Hipnose", cost: 1, desc: "Hipnotizar é uma ação de convencer, mas que se realiza com Cachola no lugar de Maneirice e que, além de seu efeito normal, deixa o alvo em estado concentrado na ação em que foi dirigido durante um turno." },
-        { name: "Jargão cientifico", cost: 1, desc: "Com seu papo furado científico, você pode fazer com que as maiores mentiras colem. Você pode usar Cachola no lugar de Falastrice em todas as ações de enganar. Pode usar sucessos magníficos para colocar o alvo no estado confuso no lugar do estado crédulo." },
-        { name: "Leitura mental", cost: 1, desc: "Sua personagem pode ler a mente dos outros. É como uma ação de fichar, mas a personagem usa Cachola e o alvo reage com Teimosia. A dificuldade é sempre 2. Se tiver sucesso, pode fazer uma pergunta ao alvo, que terá que responder com sinceridade." },
-        { name: "Mão mental", cost: 1, desc: "Você pode usar o poder da sua mente para mover objetos a distância. Pode realizar movimentos (pegar/largar) e ações (empurrar, levantar, prender, lançar) sobre objetos até uma área de distância usando Cachola." },
-        { name: "Médico", cost: 1, desc: "Você sabe tudo sobre a anatomia e enfermidades. Você recebe +2 nas ações de curar." },
-        { name: "Mente científica", cost: 1, desc: "Você entende que a magia é só um outro tipo de ciência. Você pode usar Cachola no lugar de Teimosia para reagir diante de um encantamento mágico. Além disso, você pode usar Cachola em ações de curar destinadas a eliminar estados produzidos pela magia." },
-        { name: "Meticuloso", cost: 1, desc: "A personagem é tremendamente organizada e cuidadosa quando faz uma busca. Pode usar Cachola no lugar de Esperteza em todas as ações de buscar." },
-        { name: "Razoável", cost: 1, desc: "Você é muito bom argumentando e justificando suas explicações. Você pode usar Cachola no lugar de Maneirice nas ações de convencer." },
-        { name: "Telepatia", cost: 1, desc: "A personagem é capaz de se comunicar psiquicamente sem precisar falar. Pode fazer ações sociais sem a necessidade de falar (inclusive em estado paralisado) com um alcance de duas áreas." }
-    ],
-    "Contatos": [
-        { name: "Autoridade", cost: 1, desc: "Você é uma eminência em um campo concreto (ciência, magia, festas...). Quando o contexto for adequado, você pode usar Contatos no lugar de Maneirice em ações de animar e, além disso, recebe +1 no teste." },
-        { name: "Bom partido", cost: 1, desc: "Você é o noivo ou a noiva que qualquer um desejaria ter. Você pode usar Contatos no lugar de Maneirice em ações de flertar (mas recebe -2 se o alvo estiver enamorado de outra pessoa)." },
-        { name: "Crível", cost: 1, desc: "As pessoas o consideram digno de confiança. Você pode usar Contatos no lugar de Falastrice em ações de enganar." },
-        { name: "Discreto", cost: 1, desc: "A personagem é a típica figura que você está acostumado a ver sem dar-lhe importância. A personagem pode usar Contatos no lugar de Falastrice em ações de esconder." },
-        { name: "Família grande", cost: 1, desc: "A personagem tem um montão de parentes em todas as partes. Se a personagem fizer uma ação de contatar para buscar uma personagem genérica, pode falar que tem um familiar que se dedica a isso e receber +2 na ação." },
-        { name: "Festeiro", cost: 1, desc: "A personagem é a alma da festa. Você recebe um sucesso automático nas ações sociais quando acontecem em uma festa." },
-        { name: "Infame", cost: 1, desc: "Só o seu nome já causa medo aos que o escutam. Você pode usar Contatos no lugar de Teimosia nas ações de assustar." },
-        { name: "Influente", cost: 1, desc: "A personagem «conhece alguém que conhece alguém». Você recebe um sucesso automático em qualquer ação de convencer destinada a entrar de penetra em um lugar." },
-        { name: "Jeito com pessoas", cost: 1, desc: "Você conhece bem os defeitos e fraquezas de cada um. Em qualquer ação de fichar, você tem sucesso com 3 ou mais no lugar de com o 4 ou mais habitual." },
-        { name: "Legal", cost: 1, desc: "Sua personagem tem um estilo bacana. Você obtém um sucesso automático em qualquer ação de impressionar." },
-        { name: "Popular", cost: 1, desc: "Você é famosinho em sua vizinhança. Especifique um grupo (pessoas doces, aventureiros...). Quando você usa ações de convencer, pode afetar todos os presentes desse grupo com um único teste." },
-        { name: "Reputação", cost: 1, desc: "As pessoas conhecem você e valorizam seu julgamento. Você pode usar Contatos no lugar de Maneirice nas ações de convencer." },
-        { name: "Respeitável", cost: 1, desc: "Você é uma personalidade na Terra de Ooo. Você recebe +2 nas reações diante de ações de convencer e enganar." },
-        { name: "Viajante", cost: 1, desc: "Sua personagem esteve em mil lugares. Você pode usar Contatos no lugar de Cachola em ações de saber quando se referem a temas de história, geografia, lendas, etc." }
-    ],
-    "Esperteza": [
-        { name: "Astuto", cost: 1, desc: "A personagem aprende mais rápido do que o normal. Ao final de cada sessão de jogo, além da experiência que lhe é correspondente, a personagem recebe um ponto extra." },
-        { name: "Atento", cost: 1, desc: "A personagem está especialmente atenta. Recebe +1 em todas as ações de perceber e em todas as reações de espreitar. Se receber um estado surpreso, pode ignorá-lo imediatamente gastando um ponto de Herói." },
-        { name: "Autodidata", cost: 1, desc: "A personagem é boa aprendendo por conta própria. Você pode usar Esperteza no lugar de Cachola em ações de ciência, estudar e saber." },
-        { name: "Chef", cost: 1, desc: "A personagem é um excelente cozinheiro. Você recebe um sucesso automático em todas as ações de cozinhar." },
-        { name: "Copiador", cost: 1, desc: "A imitação não tem segredos para a personagem. Nas ações de imitar, seus sucessos magníficos adicionam um dado extra ao teste sem ter que converter-se em sucessos normais." },
-        { name: "Detectar o mal", cost: 1, desc: "Você pode usar uma ação de fichar com Esperteza no lugar de Contatos para avaliar se as personagens em sua área são confiáveis (detecta mal primordial, não um ladrão comum). Os alvos podem reagir com Teimosia." },
-        { name: "Engenhoso", cost: 1, desc: "A personagem tem ideias estupendas para construir trecos. Você pode usar Esperteza no lugar de Jeitinho em ações de inventar." },
-        { name: "Incrédulo", cost: 1, desc: "A personagem é muito desconfiada. Nas reações diante de ações de distrair e enganar, tem sucesso com 3 ou mais." },
-        { name: "Inquietante", cost: 1, desc: "A personagem tem uma aura perturbadora. Pode usar Esperteza no lugar de Teimosia em ações de assustar. Se tiver sucesso, pode escolher que o alvo ganhe um estado esquisitão no lugar de assustado." },
-        { name: "Intuitivo", cost: 1, desc: "A personagem tem uma forte intuição. Nas ações de buscar e nas reações de esconder, tem sucesso com 3 ou mais no lugar de com o 4 ou mais habitual." },
-        { name: "Jóquei", cost: 1, desc: "A personagem é um ginete magnífico. Obtém um sucesso automático em qualquer ação de montar." },
-        { name: "Olfato aguçado", cost: 1, desc: "Você tem um olfato muito apurado. Pode cheirar coisas a um máximo de duas áreas de distância e recebe +1 nas ações de buscar, rastrear ou perceber quando forem sobre odores." },
-        { name: "Olho crítico", cost: 1, desc: "Você tem um bom olho para se dar conta de como as pessoas são. Você pode usar Esperteza no lugar de Contatos nas ações de fichar se tiver diante de si a personagem alvo." },
-        { name: "Pontaria", cost: 1, desc: "Em ações de atacar com armas que tenham um alcance maior que corpo a corpo, a personagem pode usar Esperteza no lugar de Confusão. Os obstáculos não aumentam a dificuldade." },
-        { name: "Raios oculares", cost: 1, desc: "Você é capaz de lançar raios pelos olhos. Isso permite que você faça ações de atacar com Esperteza no lugar de Confusão e atacar a uma área de distância. Gastando um ponto de Herói, pode usar Esperteza como reação." },
-        { name: "Rápido", cost: 1, desc: "Uma personagem rápida é sempre a primeira a agir. Além disso, gastando um ponto de Herói, a personagem pode fazer uma ação ou movimento extra em seu turno." },
-        { name: "Ver fraqueza", cost: 1, desc: "Você sabe encontrar os pontos fracos dos objetos. Você pode usar Esperteza no lugar de Músculos em ações de soltar-se (contra amarras), bloquear e quebrar." }
-    ],
-    "Falastrice": [
-        { name: "Autoengano", cost: 1, desc: "Você é capaz de acreditar em suas próprias mentiras. Você pode usar Falastrice no lugar de Teimosia para ações de concentrar-se." },
-        { name: "Dissimulado", cost: 1, desc: "Sua personagem é muito boa passando despercebida. Você recebe +1 nas ações de esconder." },
-        { name: "Egocêntrico", cost: 1, desc: "Você ganha a opção de fazer ações de animar ou cantar sobre si mesmo usando Falastrice no lugar de Maneirice." },
-        { name: "Escapista", cost: 1, desc: "Sua personagem é um mestre nos truques do escapismo. Quando fizer uma ação de soltar-se para se livrar de cordas, correntes e similares (mas não de outra personagem), você pode usar Falastrice no lugar de Músculos e, além disso, recebe +1." },
-        { name: "Fanfarrão", cost: 1, desc: "Você é bom fingindo que é o que, na verdade, não é. Você pode usar Falastrice no lugar de Contatos em ações de impressionar." },
-        { name: "Farsante", cost: 1, desc: "Sua personagem é um perfeito mentiroso. Nas ações de enganar, você tem sucesso com 3 ou mais no lugar de com o 4 ou mais habitual." },
-        { name: "Fintar", cost: 1, desc: "Você é especialista em enganar a seus oponentes. Você pode usar Falastrice no lugar de Músculos nas ações de esquivar e no lugar de Confusão nas reações diante de ações de ataques e lançar." },
-        { name: "Flutuar", cost: 2, desc: "A personagem desliza suavemente sobre o solo sem precisar andar. Você pode usar Falastrice no lugar de Músculos nas ações de cair, correr ou esquivar." },
-        { name: "Furtivo", cost: 1, desc: "Sua personagem é especialista em mover-se despercebido. Sempre que uma personagem estiver em estado distraído ou concentrado, ou sempre que sua personagem estiver em estado escondido, você pode usar Falastrice no lugar de Confusão para atacar e, além disso, você recebe +1." },
-        { name: "Gabar-se", cost: 1, desc: "A sua personagem gosta de exagerar suas virtudes. Você pode usar Falastrice no lugar de Maneirice em ações de flertar." },
-        { name: "Incorpóreo", cost: 1, desc: "A personagem é incorpórea ou pode se tornar incorpórea à vontade com um movimento. Em seu estado incorpóreo, a personagem não pode ser alvo de ações físicas, mas pode fazê-las normalmente." },
-        { name: "Inflar-se", cost: 1, desc: "A personagem pode se inflar como um baiacu. Devido a isso, você pode fazer ações de assustar com Falastrice no lugar de Teimosia." },
-        { name: "Ligeiro", cost: 1, desc: "A personagem tem dedos ágeis. Nas ações de roubar, você tem sucesso com 3 ou mais no lugar de com o 4 ou mais normal." },
-        { name: "Massageador de Ego", cost: 1, desc: "Sua personagem gosta de dizer às demais o que elas querem ouvir. Você pode usar Falastrice no lugar de Maneirice em ações de animar." },
-        { name: "Rei do drama", cost: 1, desc: "A personagem é especialista em se deleitar em seus problemas. Cada vez que fizer um teste em cujo resultado final não obtenha nenhum sucesso, ganha um ponto de Herói." },
-        { name: "Sigiloso", cost: 1, desc: "Você é muito silencioso, portanto recebe +1 nas ações de espreitar." },
-        { name: "Substituidor", cost: 1, desc: "A personagem tem a capacidade de se disfarçar e se fazer passar por outros. Precisa dedicar uma cena preparando seu disfarce. Cada vez que alguém que conheça o substituído se encontre com a personagem, ela terá que fazer uma ação de enganar." },
-        { name: "Tagarela", cost: 1, desc: "Você é muito falador. Você pode usar Falastrice no lugar de Maneirice nas ações de convencer. Quando o fizer, no lugar do estado crédulo você pode colocar o alvo em um estado confuso." },
-        { name: "Teleporte", cost: 1, desc: "A personagem é capaz de se transportar de um lugar para outro a qualquer distância usando só um movimento. O teleporte funciona sob uma determinada condição (especificar). Para poder se teleportar, a personagem deve gastar um ponto de Herói." },
-        { name: "Trapaceiro", cost: 1, desc: "Sua personagem é especialmente hábil distorcendo as regras dos jogos. Você pode usar Falastrice no lugar de Esperteza nas ações de jogar e, além disso, você recebe +2 no teste." },
-        { name: "Trambiqueiro", cost: 1, desc: "Sua personagem é muito boa fazendo com que os demais prestem atenção em detalhes irrelevantes. Nas ações de distrair, você tem sucesso com 3 ou mais." }
-    ],
-    "Maneirice": [
-        { name: "Amigável", cost: 1, desc: "Sabe essas pessoas que se dão bem com todos? Sua personagem é uma delas. Quando faz uma ação de contatar, você pode usar Maneirice no lugar de Contatos para localizar um amigo seu." },
-        { name: "Apaixonado", cost: 1, desc: "Sua personagem põe muita energia e paixão. Quando você gasta um ponto de Herói para adicionar dados a uma ação, adiciona três dados no lugar dos dois habituais." },
-        { name: "Canção mágica", cost: 1, desc: "Sua voz ou sua capacidade de tocar um instrumento são mágicas. Em ações de cantar, seus sucessos magníficos adicionam um dado extra ao teste e, além disso, você pode usar a dita ação para colocar o estado que quiser (apaixonado, cegado...)." },
-        { name: "Don Juan", cost: 1, desc: "A personagem é muito atraente e simpática. A primeira vez que você tentar uma ação de flertar contra uma personagem, recebe +3 na ação. No entanto, se tentar flertar novamente com essa personagem no futuro, recebe -1." },
-        { name: "Empatia animal", cost: 1, desc: "A personagem tem uma boa sintonia com os animais. Pode fazer ações sociais sobre animais irracionais como se fossem personagens inteligentes. Além disso, você pode usar Maneirice no lugar de Esperteza em ações de cavalgar." },
-        { name: "Encantador", cost: 1, desc: "A personagem tem um magnetismo irresistível. Você pode usar Maneirice no lugar de Falastrice em todas as ações de enganar." },
-        { name: "Enganador", cost: 1, desc: "A personagem sabe como usar a sua simpatia para distrair os incautos e levar o que não é seu. Você pode usar Maneirice no lugar de Falastrice em ações de roubar." },
-        { name: "Entusiasta", cost: 1, desc: "A personagem tem um entusiasmo realmente contagiante. Adicione +2 a todas as ações de animar que a personagem fizer." },
-        { name: "Esponjoso", cost: 1, desc: "A personagem é molinha, flexível, com um aspecto fofo. Isso faz com que seja resistente a danos de porretadas, quedas, golpes. Todo dano físico desse tipo se reduz à metade (arredondando para baixo)." },
-        { name: "Lábia", cost: 1, desc: "Você é de uma linguagem vivaz. Você ganha +1 nas ações de convencer." },
-        { name: "Líder", cost: 1, desc: "A personagem tem talento de liderança. Cada vez que você fizer uma ação de animar a outra personagem para uma certa ação, recebe o estado inspirado para essa mesma ação para você mesmo." },
-        { name: "Metamorfo", cost: 1, desc: "A personagem tem a capacidade de se transformar em um tipo de coisa ou de animais (especificar). Para se transformar, deve usar um movimento e pagar um ponto de Herói, desse modo ganha o tamanho e os atributos próprios daquilo em que se está transformando." },
-        { name: "Muito legal", cost: 1, desc: "A personagem é tão legal que custa às demais vê-la como um perigo. Você pode usar Maneirice no lugar de Confusão para as reações diante de ações de atacar e lançar." },
-        { name: "Negociador", cost: 1, desc: "Você é um mestre do regateio. Sempre que usar uma ação de convencer para chegar a um acordo de compra e venda, obtém um sucesso automático." },
-        { name: "Poeta", cost: 1, desc: "Você gosta de falar em verso. Quando faz ações de convencer ou enganar, cada sucesso magnífico adiciona um dado a seu teste se você (jogador) estiver falando em verso." },
-        { name: "Reconfortar", cost: 1, desc: "A personagem é única dizendo palavras de ânimo. Você pode usar Maneirice no lugar de Cachola em ações de curar destinadas a outros." },
-        { name: "Sedutor", cost: 1, desc: "Você tem um encanto irresistível. Você recebe +1 em todas as ações de flertar." },
-        { name: "Sorriso torto", cost: 1, desc: "A personagem tem um encanto estranho que causa uma sensação ruim. Você pode usar Maneirice no lugar de Teimosia para as ações de assustar." },
-        { name: "Voz melodiosa", cost: 1, desc: "A personagem tem uma voz doce e aveludada. Você recebe +2 em qualquer ação de cantar." }
-    ],
-    "Teimosia": [
-        { name: "Azedo", cost: 1, desc: "A personagem tem um caráter complicado. Recebe um sucesso automático nas reações diante de ações de convencer ou flertar." },
-        { name: "Aterrorizar", cost: 1, desc: "Seja mudando seu aspecto ou de algum outro modo mágico, você é capaz de aterrorizar. Você tem sucesso com 3 ou mais em qualquer ação de assustar e, se tiver sucesso, pode deixar o alvo paralisado pelo medo no lugar de assustado." },
-        { name: "Birrento", cost: 1, desc: "A personagem é cheia de caprichos. Quando você falha em uma ação, pode escolher receber o estado furioso. Se no teste da falha não tiver nenhum sucesso, então você recebe obrigatoriamente o estado furioso." },
-        { name: "Cabeçudo", cost: 1, desc: "A personagem tem a cabeça dura. Adiciona +2 a todas as reações contra a ação de convencer e contra qualquer ação mágica para obrigá-la a agir contra a vontade (hipnose, enfeitiçar, etc)." },
-        { name: "Chapéu mágico", cost: 1, desc: "A personagem tem um chapéu mágico (ou mochila, saco, bolsos) de onde pode tirar à vontade os objetos de que precisa. Você pode usar Teimosia no lugar de Jeitinho em ações de equipar-se." },
-        { name: "Controle mental", cost: 1, desc: "A personagem pode controlar a outros. É como uma ação de prender, mas tanto a ação quanto a reação são feitas com Teimosia. Quem controla decide o que o controlado fará em seu turno." },
-        { name: "Curador", cost: 1, desc: "O toque, a saliva, o canto ou outra coisa da personagem tem a capacidade mágica de curar. Você pode usar Teimosia no lugar de Cachola para ações de curar e, além disso, você pode curar estados produzidos por magia." },
-        { name: "Elemental", cost: 1, desc: "A personagem é um elemental (fogo, água, terra, ar). É feita do material de seu elemento, de modo que seu contato produz o estado apropriado. É muito resistente ao dano deste elemento (reduz em 2 níveis), mas é muito vulnerável ao elemento contrário (dano dobrado)." },
-        { name: "Enfeitiçar", cost: 2, desc: "A personagem tem a capacidade de enfeitiçar às demais para que façam algo específico (dançar, saltar, atacar). Enfeitiçar é como uma ação de convencer, mas com Teimosia no lugar de Maneirice. Afeta todas as personagens na mesma área. Se tiver sucesso, as personagens afetadas ficam em estado enfeitiçado." },
-        { name: "Forma monstruosa", cost: 2, desc: "A personagem tem uma segunda forma de aspecto monstruoso. Mudar de forma é um movimento e em sua forma monstruosa a personagem recebe +1 em Músculos, +1 em Confusão, +1 a qualquer uso da ação de assustar e -1 em Maneirice e em Falastrice." },
-        { name: "Forma monstruosa gigante", cost: 2, desc: "A personagem pode adoptar uma forma monstruosa gigante. Mudar é um movimento. Na dita forma, a personagem recebe +2 em Músculos, +1 em Confusão, +2 a qualquer uso da ação assustar e -2 em Maneirice e em Falastrice, além das modificações próprias do tamanho gigante." },
-        { name: "Imbatível", cost: 1, desc: "A força de vontade da personagem faz com que seja excepcionalmente resistente a dano. A personagem dispõe de um nível de saúde adicional." },
-        { name: "Incômodo", cost: 1, desc: "A personagem sabe como ser uma chateação. Você pode usar Teimosia no lugar de Falastrice em ações de distrair e, se preferir, pode colocar um estado confuso no lugar de concentrado." },
-        { name: "Insistente", cost: 1, desc: "A personagem não se rende facilmente. Quando falha em uma ação, pode escolher receber o estado concentrado para a dita ação até que consiga ter sucesso nela." },
-        { name: "Intimidador", cost: 1, desc: "Você pode usar Teimosia no lugar de Maneirice nas ações de convencer, mas se o fizer e tiver sucessos magnifícos, a personagem afetada fica assustada no lugar de convencida." },
-        { name: "Invisibilidade", cost: 1, desc: "A personagem pode ficar invisível à vontade. Invertendo um movimento e gastando um ponto de Herói, a personagem ganha imediatamente o estado escondido. As ações de buscar para encontrar têm dificuldade 3." },
-        { name: "Irascível", cost: 1, desc: "A personagem se zanga com facilidade. Sempre que for receber um estado assustado, confuso, para baixo ou decepcionado, pode trocá-lo, se quiser, por um estado furioso." },
-        { name: "Lançar raios", cost: 1, desc: "Você é capaz de lançar raios de energia mágica (fogo, gelo, etc). Isso permite que você faça ações de lançar com Teimosia no lugar de Confusão com um alcance de uma área. Pode produzir estados relacionados." },
-        { name: "Mago", cost: 2, desc: "A personagem é membro de uma das oito escolas de magia. Como o mago que é, você poderá fazer encantamentos da sua escola e terá acesso a lugares secretos como a Cidade dos Magos." },
-        { name: "Maldição", cost: 2, desc: "A personagem transmite algum tipo de maldição (mordidinha transforma em Caroço, abraço em lobo do abraço). Determine com o mestre no que consiste a maldição, como se transmite e como pode ser revertida." },
-        { name: "Mandão", cost: 1, desc: "A personagem gosta de dar ordens. Você pode fazer ações de animar com Teimosia no lugar de Maneirice." },
-        { name: "Olhos de mago", cost: 1, desc: "Você tem olhos de mago, o que lhe permite ver movimentos mágicos. Quando houver magia envolvida, você pode usar Teimosia no lugar de Esperteza para ações de buscar e perceber." },
-        { name: "Persistente", cost: 1, desc: "A personagem é inacessível ao desalento. Você pode usar Teimosia no lugar de Esperteza nas ações de buscar." },
-        { name: "Portal", cost: 1, desc: "A personagem é capaz de abrir um portal para outra dimensão. Abrir o portal requer o gasto de um movimento e o gasto de um ponto de Herói. O portal só permanece aberto por três turnos." },
-        { name: "Possessão", cost: 2, desc: "A personagem pode possuir o corpo de outros. Deve ter sucesso em uma ação de prender, mas usando Teimosia no lugar de Músculos. Você age usando o alvo como se fosse sua personagem, usando os atributos e proezas dele, mas pode usar suas próprias proezas/atributos de Cachola, Esperteza, Maneirice e Teimosia." },
-        { name: "Raio enfeitiçante", cost: 2, desc: "Você pode lançar um raio enfeitiçante que obriga o afetado a fazer uma ação a sua escolha (especificar). Seu raio funciona como uma ação de lançar com duas áreas de alcance, mas com Teimosia. Se acerta, o alvo recebe um estado enfeitiçado." },
-        { name: "Rebelde", cost: 1, desc: "A personagem é indomável. Quando outra personagem fizer uma ação sobre você que possa influenciar na sua forma de agir (convencer, inspirar), você tem que repetir todos os sucessos que tiver no teste dela e ficar com o segundo resultado." },
-        { name: "Sugar energia", cost: 2, desc: "A personagem é capaz de absorver a energia vital dos demais. Gaste um ponto de Herói para ativar por uma cena. É tratada como uma ação de prender, mas com Teimosia. Cada personagem 'preso' ganha o estado inconsciente e o sugador ganha um nível de saúde adicional." },
-        { name: "Transformação", cost: 2, desc: "A personagem tem a capacidade de transformar as demais em um objeto, animal ou planta ao tocá-los. Tem que gastar um ponto de Herói e superar uma ação de prender (com Teimosia). Se tiver sucesso, o alvo se transforma." },
-        { name: "Translúcido", cost: 1, desc: "A personagem é translúcida ou pode ficar em estado translúcido à vontade usando um movimento. Enquanto se encontrar nesse estado, a personagem recebe +1 nas ações de espreitar, esconder e assustar. Também recebe +1 nas reações diante de ações de atacar." },
-        { name: "Troca cromática", cost: 1, desc: "A personagem tem o poder de trocar a cor das coisas. Usar esse poder é um movimento, a não ser que se use contra uma personagem (ação de lançar com Teimosia). Se tiver sucesso, a personagem troca de cor, o que pode gerar um estado (escondido se camuflar, para baixo se deprimir)." },
-        { name: "Valente", cost: 1, desc: "Você é difícil de amedrontar. Adicione um sucesso automático em qualquer reação diante de uma ação de assustar. Se você tiver o defeito medo, o benefício dessa proeza não se aplica ante o objeto do seu medo." }
-    ]
-};
-const slotMap = { "2": 0, "3": 1, "4": 2, "5": 3 };
+    // Loop inicial para criar os atributos
+    const atributosContainer = document.getElementById('atributos');
+    for (let i = 0; i < 3; i++) {
+        const div = document.createElement('div');
+        div.className = 'attr-box'; // O CSS vai estilizar esta classe
+        div.innerHTML = `
+        <select class="atributo" onchange="atualizarProezas(this.closest('.attr-box'))">
+          <option value="">Atributo</option>
+          ${atributosLista.map(a => `<option value="${a}">${a}</option>`).join('')}
+        </select>
+        <select class="valor" onchange="atualizarProezas(this.closest('.attr-box'))">
+          <option value="2" selected>2</option> <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="proezas-container"></div>
+      `;
+        atributosContainer.appendChild(div);
+        atualizarProezas(div);
+    }
 
-/**
- * Mostra a descrição da proeza selecionada em um alerta.
- * @param {HTMLElement} buttonElement - O botão '!' que foi clicado.
- */
+    // Loop inicial para criar Níveis de Saúde
+    const vidaContainer = document.getElementById('vida');
+    for (let i = 0; i < 5; i++) {
+        const chk = document.createElement('input'); chk.type = 'checkbox'; chk.onchange = verificarVida;
+        vidaContainer.appendChild(chk);
+    }
+
+    // Loop inicial para criar campos de Estado
+    const estadosContainer = document.getElementById('estados');
+    for (let i = 0; i < 3; i++) {
+        const div = document.createElement('div'); div.className = 'state-box';
+        const sel = document.createElement('select'); sel.innerHTML = '<option value="">Selecione...</option>' + estadosLista.map(e => `<option>${e}</option>`).join('');
+        sel.onchange = e => mostrarDescricao();
+        div.appendChild(sel);
+        estadosContainer.appendChild(div);
+    }
+});
+
+// --- FUNÇÕES DAS PROEZAS ---
 function mostrarProezaDesc(buttonElement) {
     const proezaSlot = buttonElement.closest('.proeza-slot');
     const select = proezaSlot.querySelector('select.proeza');
@@ -273,13 +76,28 @@ function mostrarProezaDesc(buttonElement) {
     }
 }
 
-function atualizarProezas(attrBox) {
+/**
+ * ATUALIZADO: Aceita um argumento opcional 'savedProezas'
+ * @param {HTMLElement} attrBox - O elemento .attr-box
+ * @param {string[] | null} [savedProezas=null] - Um array de nomes de proezas salvas
+ */
+function atualizarProezas(attrBox, savedProezas = null) {
+    // Verifica se as variáveis de 'data.js' existem. Se não, para.
+    if (typeof proezaMap === 'undefined' || typeof slotMap === 'undefined') {
+        console.error("Erro: Arquivo data.js não foi carregado a tempo.");
+        return;
+    }
+
     const selectedAtributo = attrBox.querySelector('.atributo').value;
     const selectedValor = attrBox.querySelector('.valor').value;
     const container = attrBox.querySelector('.proezas-container');
     const totalSlots = slotMap[selectedValor] || 0;
     const featList = proezaMap[selectedAtributo] || [];
-    const currentSelections = [...container.querySelectorAll('select.proeza')].map(s => s.value);
+
+    // Lógica corrigida para carregar proezas salvas
+    const currentSelections = savedProezas
+        ? savedProezas
+        : [...container.querySelectorAll('select.proeza')].map(s => s.value);
 
     container.innerHTML = '';
     let slotsUsados = 0;
@@ -294,7 +112,7 @@ function atualizarProezas(attrBox) {
 
         const select = document.createElement('select');
         select.className = 'proeza';
-        select.onchange = () => atualizarProezas(attrBox);
+        select.onchange = () => atualizarProezas(attrBox, null); 
 
         let optionsHTML = '<option value="">-- Proeza --</option>';
         let currentValue = currentSelections[selectIndex] || "";
@@ -309,7 +127,7 @@ function atualizarProezas(attrBox) {
         });
 
         select.innerHTML = optionsHTML;
-        select.value = currentValue;
+        select.value = currentValue; 
 
         const descButton = document.createElement('button');
         descButton.className = 'proeza-desc-btn';
@@ -329,25 +147,6 @@ function atualizarProezas(attrBox) {
 // --- FIM DO CÓDIGO DE PROEZAS ---
 
 // --- CÓDIGO DE EQUIPAMENTOS ---
-const equipmentMap = {
-    "Espada": { arma: "Espada", acao: "+1", reacao: "+1", maos: "1", alcance: "C/C" },
-    "Espada Pesada": { arma: "Espada Pesada", acao: "+2", reacao: "+1", maos: "2", alcance: "C/C" },
-    "Nunchaku": { arma: "Nunchaku", acao: "+1", reacao: "—", maos: "2", alcance: "C/C" },
-    "Machado": { arma: "Machado", acao: "+2", reacao: "—", maos: "1", alcance: "C/C" },
-    "Machado Grande": { arma: "Machado Grande", acao: "+3", reacao: "—", maos: "2", alcance: "C/C" },
-    "Faca (C/C)": { arma: "Faca (C/C)", acao: "+1", reacao: "—", maos: "1", alcance: "C/C" },
-    "Escudo Pequeno": { arma: "Escudo Pequeno", acao: "—", reacao: "+1", maos: "1", alcance: "C/C" },
-    "Escudo Grande": { arma: "Escudo Grande", acao: "—", reacao: "+2", maos: "1", alcance: "C/C" },
-    "Faca (Arremesso)": { arma: "Faca (Arremesso)", acao: "+1", reacao: "—", maos: "1", alcance: "1 ÁREA" },
-    "Shuriken": { arma: "Shuriken", acao: "+1", reacao: "—", maos: "1", alcance: "1 ÁREA" },
-    "Dardo": { arma: "Dardo", acao: "+2", reacao: "—", maos: "1", alcance: "1 ÁREA" },
-    "Funda": { arma: "Funda", acao: "—", reacao: "—", maos: "1", alcance: "1 ÁREA" },
-    "Arco Curto": { arma: "Arco Curto", acao: "+1", reacao: "—", maos: "1", alcance: "1 ÁREA" },
-    "Arco Longo": { arma: "Arco Longo", acao: "+2", reacao: "—", maos: "1", alcance: "1 ÁREA" },
-    "Pistola Laser": { arma: "Pistola Laser", acao: "+1", reacao: "—", maos: "1", alcance: "2 ÁREAS" },
-    "Rifle Laser": { arma: "Rifle Laser", acao: "+2", reacao: "—", maos: "2", alcance: "2 ÁREAS" }
-};
-
 function adicionarEquipamento(itemData) {
     const container = document.getElementById('equipamentos');
     const div = document.createElement('div');
@@ -379,6 +178,12 @@ function adicionarEquipamentoCustomizado() {
 }
 
 function popularPresetsEquipamentos() {
+    // Verifica se equipmentMap está carregado
+    if (typeof equipmentMap === 'undefined') {
+        console.error("Erro: Arquivo data.js não foi carregado a tempo.");
+        return;
+    }
+    
     const select = document.getElementById('equip-preset-select');
     let optionsHTML = '<option value="">-- Selecione um item --</option>';
 
@@ -411,52 +216,15 @@ function popularPresetsEquipamentos() {
 }
 // --- FIM DO CÓDIGO DE EQUIPAMENTOS ---
 
-// --- INICIALIZAÇÃO DA PÁGINA ---
-// Adiciona um listener para popular os presets quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', (event) => {
-    popularPresetsEquipamentos();
-});
-
-// Loop inicial para criar os atributos
-const atributosContainer = document.getElementById('atributos');
-for (let i = 0; i < 3; i++) {
-    const div = document.createElement('div');
-    div.className = 'attr-box';
-    div.innerHTML = `
-    <select class="atributo" onchange="atualizarProezas(this.closest('.attr-box'))">
-      <option value="">Atributo</option>
-      ${atributosLista.map(a => `<option value="${a}">${a}</option>`).join('')}
-    </select>
-    <select class="valor" onchange="atualizarProezas(this.closest('.attr-box'))">
-      <option value="2 selected">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-    <div class="proezas-container"></div>
-  `;
-    atributosContainer.appendChild(div);
-    atualizarProezas(div);
-}
-
-// Loop inicial para criar Níveis de Saúde
-for (let i = 0; i < 5; i++) {
-    const chk = document.createElement('input'); chk.type = 'checkbox'; chk.onchange = verificarVida;
-    document.getElementById('vida').appendChild(chk);
-}
-
-// Loop inicial para criar campos de Estado
-for (let i = 0; i < 3; i++) {
-    const div = document.createElement('div'); div.className = 'state-box';
-    const sel = document.createElement('select'); sel.innerHTML = '<option value="">Selecione...</option>' + estadosLista.map(e => `<option>${e}</option>`).join('');
-    sel.onchange = e => mostrarDescricao();
-    div.appendChild(sel);
-    document.getElementById('estados').appendChild(div);
-}
 
 function mostrarDescricao() {
     const box = document.getElementById('descricaoEstado');
     box.innerHTML = '';
+    // Verifica se descricoes está carregado
+    if (typeof descricoes === 'undefined') {
+        console.error("Erro: Arquivo data.js não foi carregado a tempo.");
+        return;
+    }
     document.querySelectorAll('#estados select').forEach(s => {
         if (s.value) {
             const p = document.createElement('div'); p.className = 'descricao-estado'; p.innerText = `${s.value}: ${descricoes[s.value]}`;
@@ -517,59 +285,80 @@ function carregarFicha() {
 function lerArquivo(e) {
     const file = e.target.files[0]; if (!file) return;
     const r = new FileReader(); r.onload = function () {
-        const data = JSON.parse(r.result);
-        document.getElementById('nome').value = data.nome || '';
-        document.getElementById('conceito').value = data.conceito || '';
-        document.getElementById('historico').value = data.historico || '';
-        document.getElementById('defeito').value = data.defeito || '';
-        document.getElementById('heroi').textContent = data.heroi || 5;
-        document.getElementById('xp').textContent = data.xp || 0;
-        [...document.querySelectorAll('#vida input')].forEach((c, i) => c.checked = data.vida[i]);
+        try {
+            const data = JSON.parse(r.result);
+            document.getElementById('nome').value = data.nome || '';
+            document.getElementById('conceito').value = data.conceito || '';
+            document.getElementById('historico').value = data.historico || '';
+            document.getElementById('defeito').value = data.defeito || '';
+            document.getElementById('heroi').textContent = data.heroi || 5;
+            document.getElementById('xp').textContent = data.xp || 0;
+            
+            // Preenche a vida
+            [...document.querySelectorAll('#vida input')].forEach((c, i) => {
+                if (data.vida && data.vida[i]) {
+                    c.checked = data.vida[i];
+                } else {
+                    c.checked = false;
+                }
+            });
 
-        [...document.querySelectorAll('.attr-box')].forEach((b, i) => {
-            if (data.atributos && data.atributos[i]) {
-                b.querySelector('.atributo').value = data.atributos[i].atrib || '';
-                b.querySelector('.valor').value = data.atributos[i].valor || '2';
-                const container = b.querySelector('.proezas-container');
-                container.innerHTML = '';
-                if (data.atributos[i].proezas && data.atributos[i].proezas.length > 0) {
-                    data.atributos[i].proezas.forEach(proezaName => {
-                        if (proezaName) {
-                            const tempSlot = document.createElement('div');
-                            tempSlot.className = 'proeza-slot';
-                            const tempSelect = document.createElement('select');
-                            tempSelect.className = 'proeza';
-                            tempSelect.value = proezaName;
-                            tempSlot.appendChild(tempSelect);
-                            container.appendChild(tempSlot);
-                        }
+            // Bloco de carregamento de atributos CORRIGIDO
+            [...document.querySelectorAll('.attr-box')].forEach((b, i) => {
+                if (data.atributos && data.atributos[i]) {
+                    b.querySelector('.atributo').value = data.atributos[i].atrib || '';
+                    b.querySelector('.valor').value = data.atributos[i].valor || '2';
+                    
+                    // Pega o array de proezas salvas
+                    const savedProezas = data.atributos[i].proezas || [];
+                    
+                    // Chama 'atualizarProezas' e passa as proezas salvas
+                    // Isso vai forçar a função a usar os dados do save
+                    atualizarProezas(b, savedProezas);
+                } else {
+                    // Se não houver dados salvos para este bloco, apenas reseta
+                    b.querySelector('.atributo').value = '';
+                    b.querySelector('.valor').value = '2';
+                    atualizarProezas(b, []);
+                }
+            });
+
+            // Preenche os estados
+            [...document.querySelectorAll('#estados select')].forEach((s, i) => {
+                if (data.estados && data.estados[i]) {
+                    s.value = data.estados[i];
+                } else {
+                    s.value = '';
+                }
+            });
+            mostrarDescricao();
+
+            // Preenche equipamentos
+            const eqDiv = document.getElementById('equipamentos');
+            eqDiv.innerHTML = '';
+            if (data.equip && data.equip.length) {
+                if (typeof data.equip[0] === 'object' && data.equip[0] !== null) {
+                    data.equip.forEach(itemData => {
+                        adicionarEquipamento(itemData);
+                    });
+                } else {
+                    data.equip.forEach(equipItem => {
+                        adicionarEquipamento({ arma: equipItem, acao: '', reacao: '', maos: '', alcance: '' });
                     });
                 }
-                atualizarProezas(b);
             }
-        });
 
-        [...document.querySelectorAll('#estados select')].forEach((s, i) => s.value = data.estados[i]);
-        mostrarDescricao();
-
-        const eqDiv = document.getElementById('equipamentos');
-        eqDiv.innerHTML = '';
-        if (data.equip && data.equip.length) {
-            if (typeof data.equip[0] === 'object' && data.equip[0] !== null) {
-                data.equip.forEach(itemData => {
-                    adicionarEquipamento(itemData);
-                });
-            } else {
-                data.equip.forEach(equipItem => {
-                    adicionarEquipamento({ arma: equipItem, acao: '', reacao: '', maos: '', alcance: '' });
-                });
-            }
+            document.getElementById('personagens').value = data.personagens || '';
+            document.getElementById('feiticos').value = data.feiticos || '';
+            document.getElementById('notas').value = data.notas || '';
+            document.getElementById('diario').value = data.diario || '';
+        
+        } catch (err) {
+            console.error("Erro ao ler o arquivo:", err);
+            alert("Houve um erro ao carregar o arquivo. O arquivo pode estar corrompido ou não ser um JSON válido.");
         }
-
-        document.getElementById('personagens').value = data.personagens || '';
-        document.getElementById('feiticos').value = data.feiticos || '';
-        document.getElementById('notas').value = data.notas || '';
-        document.getElementById('diario').value = data.diario || '';
     };
     r.readAsText(file);
+    // Limpa o input de arquivo para permitir carregar o mesmo arquivo novamente
+    e.target.value = null; 
 }
