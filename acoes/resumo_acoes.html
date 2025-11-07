@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Ações - Hora de Aventura RPG</title>
+    <!-- Importa a fonte e o CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="resumo_style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Resumo de Ações</h1>
+        
+        <!-- --- Área de Filtragem --- -->
+        <div class="filter-container styled-box">
+            <input type="text" id="search-bar" placeholder="Pesquisar por nome da ação...">
+            
+            <div class="filter-grids">
+                <div class="filter-section">
+                    <strong>Filtrar por Atributo:</strong>
+                    <div id="filter-atributos" class="filter-group">
+                        <!-- Checkboxes de Atributos serão gerados pelo JS -->
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <strong>Filtrar por Tipo:</strong>
+                    <div id="filter-tipos" class="filter-group">
+                        <!-- Checkboxes de Tipos serão gerados pelo JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- Lista de Ações --- -->
+        <div id="actions-list">
+            <!-- Ações serão geradas pelo JS aqui -->
+        </div>
+    </div>
+
+    <!-- Importa os dados primeiro, depois o script -->
+    <script src="acoes.js"></script>
+    <script src="resumo_script.js"></script>
+</body>
+</html>
